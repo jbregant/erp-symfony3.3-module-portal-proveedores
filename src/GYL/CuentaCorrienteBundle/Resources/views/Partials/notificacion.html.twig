@@ -1,0 +1,21 @@
+<!-- Modal que muestra las notificaciones -->
+<div id="notificacion-modal" tabindex="-1" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        {% for notificacion in notificaciones %}
+            {% if loop.index0 == 0 %} {# solo mostrara el msj del primer mensaje activo sin leer #}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> {{ notificacion.titulo }} </h4>
+                    </div>
+                    <div class="modal-body modal-body-registro" style="min-width: 450px !important;">
+                        {{ notificacion.mensaje }}
+                    </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer modal-footer-registro">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-id="{{notificacion.id}}" data-leido="{{notificacion.leido}}" id="boton-aceptar-notificacion">Aceptar</button>
+                </div>
+                </div><!-- /.modal-content -->
+            {% endif %}
+        {% endfor %}
+    </div><!-- /.modal-dialog -->
+</div><!-- /.notificacion-modal -->

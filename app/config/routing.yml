@@ -1,0 +1,13 @@
+proveedor:
+    resource: "@ProveedorBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+gyl_cuenta_corriente:
+    resource: "@GYLCuentaCorrienteBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+gyl_user:
+    resource: "@GYLUsuarioBundle/Resources/config/routing.yml"
+    prefix:   /

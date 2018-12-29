@@ -1,0 +1,113 @@
+{% block javascripts %}
+    {% javascripts '@rubro_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#rubro"
+     aria-expanded="false" aria-controls="collapseExample"><h5>Rubro</h5></div>
+<div class="panel-body collapse" id="rubro">
+    <!--****************************        			ABM     *************************-->
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+    <div class="col-lg-12 text-center botonera-abm" style="margin-top: 10px">
+        <a class="btn btn-primary btn-abm" data-target="#agrega-rubro"
+           data-toggle="modal" id="agregarRubro" data-editar-flag="false">Agregar</a>
+    </div>
+    {% endif %}
+    <table class="table table-responsive table-striped tabla-registro" id="tabla-rubro2">
+        <thead>
+        <tr>
+            <td><span style="color:red;">*</span>Categoria</td>
+            <td><span style="color:red;">*</span>Rubro</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in rubros %}
+            <tr id="rubro-row-{{ item.id }}">
+                <td hidden>{{ item.id }}</td>
+                <td>{{ item.categoria }}</td>
+                <td>{{ item.rubro }}</td>
+                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <td><a onclick="quitarRubro({{ item.id }})" class="glyphicon glyphicon-remove"></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <!--****************************        			DOCUMENTACION     *************************-->
+    {# <div class="col-lg-12  pad-top">
+        <p><strong>Documentación </strong><span><button type="button"
+                                                        class="btn btn-primary btn-xs"><i
+                            class="fa fa-question text-white"
+                            aria-hidden="true"></i></button></span></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocRubro">
+                <div class="form-group" id="form-group-for-append-rubro">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                    <input type="file" id="inputDocRubro" class="inputfile">
+                    <label for="inputDocRubro" style="cursor: pointer">Adjuntar archivo</label>
+                    <div class="input-group" style="margin: 1em">
+                        <input style="width: 20em" type="text" class="form-control adjunto"
+                               placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameRubro">
+                    </div>
+                    {% endif %}
+                    {% if documentacionRubro is not empty %}
+                        {% for documentoRubro in documentacionRubro %}
+                            <div class="row" id="savedRubroDoc{{ documentoRubro.id }}">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameRubro{{ documentoRubro.id }}"
+                                       value="{{ documentoRubro.publicfilename }}" disabled >
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                <i class="fa fa-times fa-2" aria-hidden="true"
+                                   onclick="quitarDocumentoRubro({{ documentoRubro.id }})" style="cursor: pointer;"></i>
+                                   {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div> #}
+    <div class="col-lg-12 text-right">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+        <button type="button" class="btn btn-info  btn-borrador" id="guardarBorradorBtnRubro">
+            <span> {% image '@saveldpi1' %}
+                    <img class="image-responsive" src="{{ asset_url }}">
+                {% endimage %}</span></button>
+                {% endif %}
+    </div>
+</div>
+
+<!-- modal -->
+<div id="agrega-rubro" class="modal fade">
+    <div class="modal-dialog modal-dialog-registro">
+        <div class="modal-content modal-content-registro">
+            <div class="modal-header modal-header-registro">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span>X</span></button>
+
+                <h4 class="modal-title">Buscar Rubros</h4>
+            </div>
+            <div class="modal-body modal-body-registro" style="min-width: 450px !important;">
+
+                {{ form_start(selectRubros ) }}
+                {{ form_end(selectRubros ) }}
+
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+                <button type="button" class="btn btn-primary" id="boton-agregar-rubro">Agregar</button>
+            </div>
+
+        </div>
+        <!-- /.modal-content-registro -->
+    </div><!-- /.modal-dialog-registro -->
+</div><!-- /.modal-registro -->

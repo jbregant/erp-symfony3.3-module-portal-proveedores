@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}ADIF S.E. - Invitación{% endblock %}
+{% block body %}
+
+    {% include '@GYL\UsuarioBundle/Resources/views/Partials/header.html.twig' %}
+
+    <main role="main">
+        <section class="jumbotron jumbobanner">
+            <div class="jumbotron_body_nopad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-5 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center bg-white-transparent border-rnd text-black pad-30">
+                            <h4>Error al obtener su invitación.</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay"></div>
+
+            {% include '@GYL\UsuarioBundle/Resources/views/Partials/modal.html.twig' %}
+
+        </section>
+        <hr class="hr-footer">
+    </main>
+    {% include '@GYL\UsuarioBundle/Resources/views/Partials/footer.html.twig' %}
+
+{% endblock %}

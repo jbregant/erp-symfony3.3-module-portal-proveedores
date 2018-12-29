@@ -1,0 +1,404 @@
+{% block javascripts %}
+    {% javascripts '@proveedor_actividad_extranjero_js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#actividad-extranjero"
+     aria-expanded="false" aria-controls="collapseExample"><h5>Actividad/es (Relacionadas a la
+        Contratación)</h5></div>
+<div class="panel-body collapse" id="actividad-extranjero">
+
+
+    {{ form_start(formActividadExtranjero,   {'attr': {'id': 'form-actividades-extranjero-cbx', 'class': 'form-horizontal'}} ) }}
+    {{ form_end(formActividadExtranjero) }}
+    <div class="col-sm-12">
+        <div class="row pad-top">
+            <label for="" class="control-label">Exportación de bienes</label>
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <button type="button"
+                        {% if actividad_extranjero != null and actividad_extranjero.ExportacionBienes == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off" id="exportacion_bienes_extranjero">
+                    <div class="handle"></div>
+                </button>
+            {% else %}
+                <button type="button" disabled
+                        {% if actividad_extranjero != null and actividad_extranjero.ExportacionBienes == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off" id="exportacion_bienes_extranjero">
+                    <div class="handle"></div>
+                </button>
+            {% endif %}
+            <label for="" class="control-label">Prestación de servicios</label>
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <button type="button"
+                        id="prestacion_servicios_extranjero"
+                        {% if actividad_extranjero != null and actividad_extranjero.PrestacionServicios == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+            {% else %}
+                <button type="button" disabled
+                        id="prestacion_servicios_extranjero"
+                        {% if actividad_extranjero != null and actividad_extranjero.PrestacionServicios == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+            {%endif %}
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="panel panel-celeste" {% if actividad_extranjero == null or actividad_extranjero.PrestacionServicios == 0 %} hidden {% endif %}
+             id="panel-prestacion-servicio">
+            <div class="panel-heading bg-celeste text-white"><h5><span
+                        class="text-danger"><strong>*</strong></span>Prestación de Servicio</h5></div>
+            <div class="panel-body">
+
+                {{ form_start(formPrestacionServicios,   {'attr': {'id': 'form-actividades-extranjero-ps', 'class': 'datos-registro pad'}} ) }}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Número</label>
+                        <div class="col-sm-4">
+                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_numero) }}
+                            {% else %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_numero,{ 'attr':{'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Régimen</label>
+                        <div class="col-sm-4">
+                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_regimen) }}
+                            {% else %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_regimen,{ 'attr':{'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                        <label for="" class="col-sm-5 control-label">Convenio Unilateral</label>
+                        <div class="col-sm-4">
+                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null or unlockForm) %}
+                                <button type="button"
+                                        id="convenio_unilateral"
+                                        {% if actividad_extranjero != null and actividad_extranjero.convenioUnilateral == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        id="convenio_unilateral"
+                                        {% if actividad_extranjero != null and actividad_extranjero.convenioUnilateral == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Porcentaje de exención</label>
+                        <div class="form-group col-sm-4">
+                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_porcentaje_excension) }}
+                            {% else %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_porcentaje_excension,{ 'attr':{'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Fecha Desde</label>
+                        <div class="col-sm-4">
+                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_fecha_desde) }}
+                            {% else %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_fecha_desde,{ 'attr':{'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Fecha Hasta</label>
+                        <div class="col-sm-4">
+                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_fecha_hasta) }}
+                            {% else %}
+                                {{ form_widget(formPrestacionServicios.prestacion_servicio_fecha_hasta,{ 'attr':{'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                    <button type="submit" hidden id="submit-prestacion-btn"></button>
+                {% endif %}
+                {{ form_end(formPrestacionServicios) }}
+
+
+                <div id="form-convenio-unilateral" {% if actividad_extranjero == null or actividad_extranjero.isConvenioUnilateral == 0 %} hidden {% endif %}>
+                    {{ form_start(formConvenioUnilateral,   {'attr': {'id': 'form-actividades-extranjero-cu', 'class': 'datos-registro pad'}} ) }}
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="" class="col-sm-5 control-label">Jurisdicción </label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" value="CABA" disabled> </input>
+                            </div>
+                            <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Pct. Aplicación CABA</label>
+                            <div class="col-sm-4">
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    {{ form_widget(formConvenioUnilateral.convenio_unilateral_aplicacion_caba) }}
+                                {% else %}
+                                    {{ form_widget(formConvenioUnilateral.convenio_unilateral_aplicacion_caba, { 'attr':{'disabled':'disabled'} }) }}
+                                {% endif %}
+                                <span id="convenio_unilateral_aplicacion_caba_msj" class="help-block" hidden></span>
+                            </div>
+                            <label for="" class="col-sm-5 control-label">Grupo</label>
+                            <div class="col-sm-4">
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    {{ form_widget(formConvenioUnilateral.convenio_unilateral_aplicacion_grupo) }}
+                                {% else %}
+                                    {{ form_widget(formConvenioUnilateral.convenio_unilateral_aplicacion_grupo, { 'attr':{'disabled':'disabled'} }) }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(formConvenioUnilateral) }}
+                    <div class="col-lg-12  pad-top">
+
+                        <p><strong>Documentación </strong><span><button type="button"
+                                                                        class="btn btn-primary btn-xs"><i
+                                        class="fa fa-question text-white"
+                                        aria-hidden="true"></i></button></span></p>
+                        <div class="col-lg-11 col-lg-offset-1">
+                            <form class="form-inline" id="formDocConvenioUnilateral">
+                                <div class="form-group" id="form-group-for-append-convenio-unilateral">
+                                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                        <input type="file" id="inputDocConvenioUnilateral" class="inputfile">
+                                        <label for="inputDocConvenioUnilateral" style="cursor: pointer">Adjuntar
+                                            archivo</label>
+                                        <div class="input-group" style="margin: 1em">
+                                            <input style="width: 20em; display: none;" type="text" class="form-control adjunto"
+                                                   placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                                   id="inputFileNameConvenioUnilateral">
+                                        </div>
+                                    {% endif %}
+                                    {% if documentacionConvenioUnilateral is not empty %}
+                                        {% for documentoConvenioUnilateral in documentacionConvenioUnilateral %}
+                                            <div class="row"
+                                                 id="savedConvenioUnilateralDoc{{ documentoConvenioUnilateral.id }}">
+                                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                                       id="savedInputFileNameConvenioUnilateral{{ documentoConvenioUnilateral.id }}"
+                                                       value="{{ documentoConvenioUnilateral.publicfilename }}"
+                                                       disabled>
+                                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                                    <i class="fa fa-times fa-2" aria-hidden="true"
+                                                       onclick="quitarDocumentoConvenioUnilateral({{ documentoConvenioUnilateral.id }})"
+                                                       style="cursor: pointer;"></i>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="panel panel-celeste"
+                         id="panel-prestacion-servicio-tipo">
+                        <div class="panel-heading bg-celeste text-white"><h5><span
+                                    class="text-danger"><strong>*</strong></span>Tipo de prestación</h5></div>
+                        <div class="panel-body">
+                            {{ form_start(formTipoDePrestacion,   {'attr': {'id': 'form-actividades-extranjero-tp', 'class': 'datos-registro pad'}} ) }}
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 control-label">Asistencia Técnica </label>
+                                <div class="form-group col-sm-4">
+                                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                        {{ form_widget(formTipoDePrestacion.tipo_prestacion_asistencia_tecnica) }}
+                                    {% else %}
+                                        {{ form_widget(formTipoDePrestacion.tipo_prestacion_asistencia_tecnica,{ 'attr':{'disabled':'disabled'} }) }}
+                                    {% endif %}
+                                </div>
+                                <label for="" class="col-sm-5 control-label">Otros (especificar)</label>
+                                <div class="form-group col-sm-4">
+                                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                        {{ form_widget(formTipoDePrestacion.tipo_prestacion_otros) }}
+                                    {% else %}
+                                        {{ form_widget(formTipoDePrestacion.tipo_prestacion_otros,{ 'attr':{'disabled':'disabled'} }) }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {{ form_end(formTipoDePrestacion) }}
+                            <div class="col-lg-12  pad-top">
+                                <p><strong>Documentación </strong><span><button type="button"
+                                                                                class="btn btn-primary btn-xs"><i
+                                                class="fa fa-question text-white"
+                                                aria-hidden="true"></i></button></span></p>
+                                <div class="col-lg-11 col-lg-offset-1">
+                                    <form class="form-inline" id="formDocConvenioTributacionInternacional">
+                                        <div class="form-group"
+                                             id="form-group-for-append-convenio-tributacion-internacional">
+                                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                                <input type="file" id="inputDocConvenioTributacionInternacional"
+                                                       class="inputfile">
+                                                <label for="inputDocConvenioTributacionInternacional"
+                                                       style="cursor: pointer">Adjuntar archivo</label>
+                                                <div class="input-group" style="margin: 1em; display:none;">
+                                                    <input style="width: 20em" type="text" class="form-control adjunto"
+                                                           placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                                           id="inputFileNameConvenioTributacionInternacional">
+                                                </div>
+                                            {% endif %}
+                                            {% if documentacionConvenioTributacionInternacional is not empty %}
+                                                {% for documentoConvenioTributacionInternacional in documentacionConvenioTributacionInternacional %}
+                                                    <div class="row"
+                                                         id="savedConvenioTributacionInternacionalDoc{{ documentoConvenioTributacionInternacional.id }}">
+                                                        <input style="width: 20em" type="text"
+                                                               class="form-control adjunto"
+                                                               placeholder="documento.pdf"
+                                                               aria-describedby="archivo-ok"
+                                                               id="savedInputFileNameConvenioTributacionInternacional{{ documentoConvenioTributacionInternacional.id }}"
+                                                               value="{{ documentoConvenioTributacionInternacional.publicfilename }}"
+                                                               disabled>
+                                                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                                            <i class="fa fa-times fa-2" aria-hidden="true"
+                                                               onclick="quitarDocumentoConvenioTributacionInternacional({{ documentoConvenioTributacionInternacional.id }})"
+                                                               style="cursor: pointer;"></i>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-10 pad-top">
+                                <label for="" class="col-sm-8 control-label">¿Aplica convenio para evitar la doble
+                                    tributación internacional? </label>
+                                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <button type="button"
+                                            id="tributacion_internacional"
+                                            {% if actividad_extranjero != null and actividad_extranjero.convenioTributacionInternacional == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                            data-toggle="button"
+                                            autocomplete="off">
+                                        <div class="handle"></div>
+                                    </button>
+                                {% else %}
+                                    <button type="button" disabled
+                                            id="tributacion_internacional"
+                                            {% if actividad_extranjero != null and actividad_extranjero.convenioTributacionInternacional == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                            data-toggle="button"
+                                            autocomplete="off">
+                                        <div class="handle"></div>
+                                    </button>
+                                {% endif %}
+                            </div>
+                            {{ form_start(formConvenioInternacional,  {'attr': {'id': 'form-articulo_de_convenio_aplicable', 'class': 'datos-registro pad'}}) }}
+
+                            <div class="form-group col-sm-4">
+                                <label for="" class="col-sm-10 datos-registro control-label">Articulo de convenio aplicable</label>
+
+                                {% if actividad_extranjero != null and ((actividad_extranjero.convenioTributacionInternacional is defined and actividad_extranjero.convenioTributacionInternacional != 0) and (estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm)) %}
+                                    {{ form_widget(formConvenioInternacional.articulo_de_convenio_aplicable) }}
+                                {% else %}
+                                    {{ form_widget(formConvenioInternacional.articulo_de_convenio_aplicable,{ 'attr':{'disabled':'disabled'} }) }}
+                                {% endif %}
+
+                            </div>
+                            {{ form_end(formConvenioInternacional) }}
+                            <div class="form-group col-lg-10 pad-top">
+                                <label for="" class="col-sm-8 control-label">¿Posee establecimiento permanente en
+                                    Argentina?</label>
+                                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <button type="button"
+                                            id="establecimiento_argentina"
+                                            {% if actividad_extranjero != null and actividad_extranjero.establecimientoArgentina == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                            data-toggle="button"
+                                            autocomplete="off">
+                                        <div class="handle"></div>
+                                    </button>
+                                {% else %}
+                                    <button type="button" disabled
+                                            id="establecimiento_argentina"
+                                            {% if actividad_extranjero != null and actividad_extranjero.establecimientoArgentina == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                            data-toggle="button"
+                                            autocomplete="off">
+                                        <div class="handle"></div>
+                                    </button>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-lg-12  pad-top">
+                                <p><strong>Certificado de Convenio </strong><span><button type="button"
+                                                                                          class="btn btn-primary btn-xs"><i
+                                                class="fa fa-question text-white"
+                                                aria-hidden="true"></i></button></span></p>
+                                <div class="col-lg-11 col-lg-offset-1">
+                                    <form class="form-inline" id="formDocEstablecimientoArgentina">
+                                        <div class="form-group"
+                                             id="form-group-for-append-establecimiento-argentina">
+                                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                                <input type="file" id="inputDocEstablecimientoArgentina"
+                                                       class="inputfile">
+                                                <label for="inputDocEstablecimientoArgentina" style="cursor: pointer">Adjuntar
+                                                    archivo</label>
+                                                <div class="input-group" style="margin: 1em; display:none;">
+                                                    <input style="width: 20em" type="text" class="form-control adjunto"
+                                                           placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                                           id="inputFileNameEstablecimientoArgentina">
+                                                </div>
+                                            {% endif %}
+                                            {% if documentacionEstablecimientoArgentina is not empty %}
+                                                {% for documentoEstablecimientoArgentina in documentacionEstablecimientoArgentina %}
+                                                    <div class="row"
+                                                         id="savedEstablecimientoArgentinaDoc{{ documentoEstablecimientoArgentina.id }}">
+                                                        <input style="width: 20em" type="text"
+                                                               class="form-control adjunto"
+                                                               placeholder="documento.pdf"
+                                                               aria-describedby="archivo-ok"
+                                                               id="savedInputFileNameEstablecimientoArgentina{{ documentoEstablecimientoArgentina.id }}"
+                                                               value="{{ documentoEstablecimientoArgentina.publicfilename }}"
+                                                               disabled>
+                                                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                                            <i class="fa fa-times fa-2" aria-hidden="true"
+                                                               onclick="quitarDocumentoEstablecimientoArgentina({{ documentoEstablecimientoArgentina.id }})"
+                                                               style="cursor: pointer;"></i>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    {% if observacionEvaluacion is not null %}
+
+        <div class="row">
+            <div class="form-group col-md-6" >
+                <label class="col-sm-3 control-label text-left" style="color: black !important;">Observación:</label>
+                <div class="col-md-8 col-sm-12">
+                    <div class="detalle_show">{{ observacionEvaluacion }}</div>
+                </div>
+            </div>
+        </div>
+                
+    {%endif %}
+    <div class="text-right">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <button type="submit" class="btn btn-info  btn-borrador" id="guardarBorradorActividadesExtranjero">
+                <span>  {% image '@saveldpi1' %}
+                    <img class="image-responsive" src="{{ asset_url }}">
+                    {% endimage %}</span></button>
+                {% endif %}
+    </div>
+</div>
+

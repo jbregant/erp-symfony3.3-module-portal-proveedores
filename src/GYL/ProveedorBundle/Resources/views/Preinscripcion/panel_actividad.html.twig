@@ -1,0 +1,107 @@
+{% block javascripts %}
+    {% javascripts '@proveedor_actividad_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#actividad"
+     aria-expanded="false" aria-controls="collapseExample"><h5>Actividad/es (Relacionadas a la
+        Contratación)</h5></div>
+<div class="panel-body collapse" id="actividad">
+
+
+    <!--****************************        			ABM     *************************-->
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+        <div class="col-lg-12 text-center botonera-abm" style="margin-top: 10px">
+            <a class="btn btn-primary btn-abm" data-target="#agrega-actividad"
+               data-toggle="modal" id="agregarActividad" data-editar-flag="false">Agregar</a>
+        </div>
+    {% endif %}
+
+
+    <table class="table table-responsive table-striped tabla-registro" id="tabla-actividad">
+        <thead>
+        <tr>
+            <td><span style="color:red;">*</span>Actividad</td>
+            <td>Sección</td>
+            <td>Grupo</td>
+        </tr>
+        </thead>
+        <tbody>
+            {% if actividades is not empty %}
+                {% for item in actividades %}
+                    <tr id="actividad-row-{{ item.id }}">
+                        <td hidden>{{ item.id }}</td>
+                        <td>{{ item.denominacion }}</td>
+                        <td>{{ item.denominacion_grupo }}</td>
+                        <td>{{ item.denominacion_seccion }}</td>
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            <td><a onclick="quitarActividad({{ item.id }})" class="glyphicon glyphicon-remove"></a></td>
+                            {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+        {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <div class="col-lg-12 text-right">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <button type="submit" class="btn btn-info  btn-borrador" id="guardarBorradorActividades">
+                <span>  {% image '@saveldpi1' %}
+                    <img class="image-responsive" src="{{ asset_url }}">
+                    {% endimage %}</span></button>
+                {% endif %}
+    </div>
+</div>
+
+<!-- modal -->
+<div id="agrega-actividad" class="modal fade">
+    <div class="modal-dialog modal-dialog-registro" style="min-width: 425px">
+        <div class="modal-content modal-content-registro">
+            <div class="modal-header modal-header-registro">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span>X</span></button>
+
+                <h4 class="modal-title">Buscar Actividades</h4>
+            </div>
+            <div class="modal-body modal-body-registro" style="min-width: 450px !important;">
+                <div class="col-lg-11 col-lg-offset-1">
+                    <form class="form-inline" id="cod-actividad">
+                        <div class="form-group">
+                            <label for="cod-clae">
+                                <span class="text-danger">*</span>
+                                (C&oacute;digo de Clasificaci&oacute;n de Actividad Econ&oacute;mica) CLAE-AFIP</label>
+                            <input type="text" id="cod-clae" class="form-control" maxlength="36"
+                                   style="min-width: 280px; max-width: 280px;"
+                                   placeholder="Ingrese el codigo o palabra" required>
+                            <button type="submit" class="btn btn-primary" id="buscar-actividades-btn">Buscar</button>
+                        </div>
+                    </form>
+                    <p id='actMsg'></p>
+                    <table class="table table-responsive table-striped" id="lista-de-actividades">
+                        <thead>
+                        <tr>
+                            <td>Actividad</td>
+                            <td>Sección</td>
+                            <td>Grupo</td>
+                            <td>Acciones</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content-registro -->
+    </div><!-- /.modal-dialog-registro -->
+</div><!-- /.modal-registro -->

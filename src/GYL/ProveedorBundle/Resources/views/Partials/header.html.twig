@@ -1,0 +1,56 @@
+<header>
+    <div class="container-fluid no-padding">
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 bg-cyan band-header">
+            <div class="bg-cyan col-lg-12 col-md-12 col-sm-12 col-xs-12" id="cuenta-corriente-div" hidden>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <select class="form-control selectpicker" style="font-size: 12px;" name="id_dato_personal_proveedor" id="proveedor-selector">
+                        {% for proveedor in comboProveedores %}
+                            <option value="{{ proveedor.id }}" {% if proveedor.id == idProvDatoPersonal %}selected{% endif %}>
+                                {% if proveedor.cuit is null %}
+                                    Nro Id Tributario:
+                                    {{ proveedor.numeroIdTributaria }}
+                                {% else %}
+                                    CUIT:
+                                    {{ proveedor.cuit }}
+                                {% endif %} /
+                                {% if proveedor.razonSocial is not null %}
+                                    Razon Social:
+                                    {{ proveedor.razonSocial }}
+                                {% elseif proveedor.nombre is not null and proveedor.apellido is not null%}
+                                    Nombre:
+                                    {{ proveedor.nombre }} {{ proveedor.apellido }}
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="text-center col-lg-2 col-md-2">
+                    <a id='btn-plus-proveedor' class="btn btn-info btn-fact-comp" >Agregar Proveedor</a>
+                </div>
+                {% if mostrarBtnCte %}
+                    <div class="text-center col-lg-3 col-md-3">
+                        <a href="{{ path('cuenta_corriente_index') }}" class="btn btn-info btn-fact-comp" >Mostrar estado de cuenta</a>
+                    </div>
+                {% endif %}
+                {% if mostrarBtnModificar and not unlockForm %}
+                    <div class="text-center col-lg-2 col-md-2">
+                        <a id='btn-unlock-preinscripcion' class="btn btn-info btn-fact-comp">Modificar Datos</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 bg-blue ">
+            {% image '@logo_png' %}
+                <img class="logo-trenes" alt="Trenes" src="{{ asset_url }}">
+            {% endimage %}
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    {% include '@ProveedorBundle/Resources/views/Partials/menu.html.twig' %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider-white"></div>
+    </div>
+</header>

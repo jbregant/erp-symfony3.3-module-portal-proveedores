@@ -1,0 +1,181 @@
+{% block javascripts %}
+    {% javascripts '@jquery_js''@agregar_contacto_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse"
+     href="#datos-contacto"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Datos de Contacto</h5>
+
+</div>
+<div class="panel-body collapse" id="datos-contacto">
+    <!--****************************        			ABM     *************************-->
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+    <div class="col-lg-12 text-center botonera-abm">
+        <a class="btn btn-primary btn-abm" data-target="#agrega-contacto"
+           data-toggle="modal" id="agregarContacto" data-editar-flag="false">Agregar</a>
+    </div>
+    {% endif %}
+
+    <table class="table table-responsive table-striped tabla-registro"
+           id="tabla-datos-contacto">
+        <thead>
+        <tr>
+            <td hidden>ID</td>
+            <td><span class="text-danger">*</span>Nombre</td>
+            <td><span class="text-danger">*</span>Apellido</td>
+            <td><span class="text-danger">*</span>Área</td>
+            <td>Posición</td>
+            <td><span class="text-danger">*</span>E-mail</td>
+            <td><span class="text-danger">*</span>Teléfono</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in entities %}
+            <tr id="contacto-row{{ item.id }}">
+                <td id="id" hidden>{{ item.id }}</td>
+                <td id="nombre">{{ item.nombre }}</td>
+                <td id="apellido">{{ item.apellido }}</td>
+                <td id="area">{{ item.area }}</td>
+                <td id="posicion">{{ item.posicion }}</td>
+                <td id="email" class="text-adapt" style="text-transform: none;">{{ item.email }}</td>
+                <td id="telefono">{{ item.telefono }}</td>
+                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm  %}
+                <td><a onclick="quitarContacto({{ item.id }})" id="eliminarContacto" class="glyphicon glyphicon-remove"></a>
+                <a data-target="#agrega-contacto" data-toggle="modal" id="editarContacto" class="editar glyphicon glyphicon-pencil"></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+    
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm  %}
+    <div class="col-lg-12 text-right">
+        <button type="button" class="btn btn-info guardar"><span>   {% image '@saveldpi1' %}
+                    <img class="image-responsive" src="{{ asset_url }}">
+                {% endimage %}</span></button>
+    </div>
+    {% endif %}
+
+</div>
+
+
+<!-- modal -->
+<div id="agrega-contacto" class="modal fade">
+    <div class="modal-dialog modal-dialog-registro">
+        <div class="modal-content modal-content-registro">
+            <div class="modal-header modal-header-registro">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span>X</span></button>
+
+                <h4 class="modal-title">Agregar Contacto</h4>
+            </div>
+            <div class="modal-body modal-body-registro">
+
+                <div class="col-lg-11 col-lg-offset-1">
+                    {{ form_start(datosContacto,  {'attr': {'id': 'contactoForm', 'class': 'datos-registro'}} ) }}
+                    {% form_theme datosContacto with['form_div_layout.html.twig','bootstrap_3_horizontal_layout.html.twig'] %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {#{{ form_label(datosContacto.nombre) }}#}
+                                <label class="col-sm-2 control-label required" for="form_nombre"><span style="color: red">*</span>Nombre</label>
+                                {{ form_widget(datosContacto.nombre,{ 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(datosContacto.nombre) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {#{{ form_label(datosC/ontacto.apellido) }}#}
+                                <label class="col-sm-2 control-label required" for="form_apellido"><span style="color: red">*</span>Apellido</label>
+                                {{ form_widget(datosContacto.apellido,{ 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(datosContacto.apellido) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {#{{ form_label(datosContacto.area) }}#}
+                                <label class="col-sm-2 control-label required" for="form_area"><span style="color: red">*</span>Área</label>
+                                {{ form_widget(datosContacto.area,{ 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(datosContacto.area) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {#{{ form_label(datosContacto.posicion) }}#}
+                                <label class="col-sm-2 control-label" for="form_posicion"><span style="color: red">*</span>Posición</label>
+                                {{ form_widget(datosContacto.posicion,{ 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(datosContacto.posicion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {#{{ form_label(datosContacto.email) }}#}
+                                <label class="col-sm-2 control-label required" for="form_email"><span style="color: red">*</span>Email</label>
+                                {{ form_widget(datosContacto.email,{ 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(datosContacto.email) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {#{{ form_label(datosContacto.telefono) }}#}
+                                <label class="col-sm-2 control-label required" for="form_telefono"><span style="color: red">*</span>Teléfono</label>
+                                {{ form_widget(datosContacto.telefono,{ 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(datosContacto.telefono) }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="contactoFormularioSubmit" editar="false">
+                        Agregar
+                    </button>
+                    {{ form_end(datosContacto) }}
+                </div>
+
+                {#TODO DEFINIR DPF DE DOCUMENTACION#}
+                {#<div class="col-lg-12  pad-top">#}
+                {#<p><strong>Documentación </strong><span><button type="button"#}
+                {#class="btn btn-primary btn-xs"><i#}
+                {#class="fa fa-question text-white"#}
+                {#aria-hidden="true"></i></button></span></p>#}
+                {#<div class="col-lg-11 col-lg-offset-1">#}
+                {#<form class="form-inline">#}
+                {#<div class="form-group">#}
+                {#<input type="file" id="exampleInputFile4" class="inputfile">#}
+                {#<label for="exampleInputFile">Adjuntar archivo</label>#}
+                {#<button type="button" class="adjuntar-eliminar"><span#}
+                {#class="glyphicon glyphicon-remove"></span></button>#}
+                {#<div class="input-group" style="margin: 1em">#}
+                {#<input style="width: 20em" type="text"#}
+                {#class="form-control adjunto"#}
+                {#placeholder="documento.pdf"#}
+                {#aria-describedby="archivo-ok">#}
+                {#<span class="input-group-addon" id="archivo-ok4"><input#}
+                {#type="checkbox"></span>#}
+                {#</div>#}
+                {#</div>#}
+                {#</form>#}
+                {#</div>#}
+                {#</div>#}
+
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content-registro -->
+    </div><!-- /.modal-dialog-registro -->
+</div><!-- /.modal-registro -->

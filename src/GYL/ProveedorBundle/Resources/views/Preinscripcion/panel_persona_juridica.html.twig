@@ -1,0 +1,211 @@
+{% block javascripts %}
+    {% javascripts '@panel_persona_juridica_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#datos-persona-juridica"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Persona Jurídica</h5>
+</div>
+<div class="panel-body collapse" id="datos-persona-juridica">
+
+    {{ form_start(datosPersonaJuridica ,{'attr': {'id': 'persona-juridicaForm', 'class':'form-horizontal col-lg-11 col-lg-offset-1 datos-registro pad-top'}} ) }}
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Tipo de persona
+            jurídica</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(datosPersonaJuridica.tipo_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(datosPersonaJuridica.tipo_persona_juridica,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Razón social</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(datosPersonaJuridica.razon_social_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(datosPersonaJuridica.razon_social_persona_juridica,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Dirección Web</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(datosPersonaJuridica.direccion_web_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(datosPersonaJuridica.direccion_web_persona_juridica,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Fecha de inicio de
+            actividad</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(datosPersonaJuridica.fecha_inicio_actividad_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(datosPersonaJuridica.fecha_inicio_actividad_persona_juridica,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+        <button type="submit" class="btn btn-info btn-borrador" id="persona-juridica-FormularioSubmit"
+                style="float:right">
+            <span> {% image '@saveldpi1' %}
+                    <img class="image-responsive" src="{{ asset_url }}">
+                {% endimage %}</span>
+        </button>
+    {% endif %}
+    {{ form_end(datosPersonaJuridica) }}
+
+
+    <div class="clearfix"></div>
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5>Datos de Miembros</h5></div>
+        <div class="panel-body">
+
+            <table class="table table-responsive table-striped tabla-registro"
+                   id="tabla-datos-persona-juridica">
+                <thead>
+                <tr>
+                    <td><span class="text-danger">*</span>CUIT</td>
+                    <td><span class="text-danger">*</span>Nombre</td>
+                    <td><span class="text-danger">*</span>Apellido</td>
+                    <td><span class="text-danger">*</span>% Participación</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                    {% if miembrosPersonaJuridica is not empty %}
+                        {% for item in miembrosPersonaJuridica %}
+                            <tr id="miembro-persona-juridica-row-{{ item.id }}">
+                                <td id="id" hidden>{{ item.id }}</td>
+                                <td id="cuit">{{ item.cuit }}</td>
+                                <td id="nombre">{{ item.nombre }}</td>
+                                <td id="apellido">{{ item.apellido }}</td>
+                                <td id="participacion">{{ item.participacion }}</td>
+                                <td>
+                                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                        <a onclick="quitarMiembroPersonaJuridica({{ item.id }})"
+                                           class="glyphicon glyphicon-remove"></a>
+                                           <a data-target="#agrega-miembro-persona-juridica" data-toggle="modal" id="editarMiembro" class="editar-miembro glyphicon glyphicon-pencil"></a>
+                            
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <!--****************************        			ABM      *************************-->
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <div class="col-lg-12 text-center botonera-abm">
+                    <a class="btn btn-primary btn-abm" data-target="#agrega-miembro-persona-juridica"
+                       data-toggle="modal" id="agregarMiembroPersonaJuridica" data-editar-flag="false">Agregar</a>
+                </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <!--****************************        			DOCUMENTACION      *************************-->
+    {# <div class="col-lg-12  pad-top">
+        <p><strong>Documentación </strong><span><button type="button"
+                                                        class="btn btn-primary btn-xs"><i
+                        class="fa fa-question text-white"
+                        aria-hidden="true"></i></button></span></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocPersonaJuridica">
+                <div class="form-group" id="form-group-for-append-persona-juridica">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <input type="file" id="inputDocPersonaJuridica" class="inputfile">
+                        <label for="inputDocPersonaJuridica" style="cursor: pointer">Adjuntar archivo</label>
+                        <div class="input-group" style="margin: 1em">
+                            <input style="width: 20em" type="text" class="form-control adjunto"
+                                   placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                   id="inputFileNamePersonaJuridica">
+                        </div>
+                    {% endif %}
+                    {% if documentacionPersonaJuridica is not empty %}
+                        {% for documentacionPersonaJuridica in documentacionPersonaJuridica %}
+                            <div class="row"
+                                 id="savedPersonaJuridicaDoc{{ documentacionPersonaJuridica.id }}">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNamePersonaJuridica{{ documentacionPersonaJuridica.id }}"
+                                       value="{{ documentacionPersonaJuridica.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2" aria-hidden="true"
+                                       onclick="quitarDocumentoPersonaJuridica({{ documentacionPersonaJuridica.id }})"
+                                       style="cursor: pointer;"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div> #}
+</div>
+
+<div id="agrega-miembro-persona-juridica" class="modal fade">
+    <div class="modal-dialog modal-dialog-registro">
+        <div class="modal-content modal-content-registro">
+            <div class="modal-header modal-header-registro">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span>X</span></button>
+
+                <h4 class="modal-title">Agregar Miembro</h4>
+            </div>
+            <div class="modal-body modal-body-registro">
+                {{ form_start(formMiembrosPersonaJuridica,  {'attr': {'id': 'miembroPersonaJuridicaForm',}} ) }}
+                <div class="form-group">
+                    {{ form_label(formMiembrosPersonaJuridica.nombre_persona_juridica ,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6">
+                        {{ form_widget(formMiembrosPersonaJuridica.nombre_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(formMiembrosPersonaJuridica.apellido_persona_juridica,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6">
+                        {{ form_widget(formMiembrosPersonaJuridica.apellido_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(formMiembrosPersonaJuridica.cuit_persona_juridica,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6">
+                        {{ form_widget(formMiembrosPersonaJuridica.cuit_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(formMiembrosPersonaJuridica.participacion_persona_juridica,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6">
+                        {{ form_widget(formMiembrosPersonaJuridica.participacion_persona_juridica,{ 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                <button editar="false" type="submit" class="btn btn-primary" id="miembroPersonaJuridicaFormularioSubmit"
+                        style="float: right;margin-top: 5%; margin-right: 50px;">
+                    Agregar
+                </button>
+                {{ form_end(formMiembrosPersonaJuridica) }}
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+
+            </div>
+
+        </div>
+    </div>
+</div>

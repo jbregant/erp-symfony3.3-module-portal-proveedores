@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% block title %}ADIF S.E. - Invitación{% endblock %}
+{% block body %}
+
+    {% include '@GYL\UsuarioBundle/Resources/views/Partials/header.html.twig' %}
+
+    <main role="main">
+        <section class="jumbotron jumbobanner">
+            <div class="jumbotron_body_nopad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-5 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center bg-white-transparent border-rnd text-black pad-30">
+                            <h4>Definir Contraseña</h4>
+                            {{ form_start(form) }}
+                            <div class="reg-form-error">{{ form_errors(form) }}</div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-1 col-lg-10 col-md-1 col-sm-2 col-xs-2 text-left">
+                                    <label for="username">{{ 'form.password'|trans({}, 'FOSUserBundle') }}</label>
+                                </div>
+
+                                <div class="col-lg-10 col-lg-offset-1">
+                                    {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-1 col-lg-10 col-md-2 col-sm-2 col-xs-2 text-left">
+                                    {{ form_label(form.plainPassword.second) }}
+                                </div>
+                                <div class="col-lg-10 col-lg-offset-1">
+                                    {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-1 col-lg-10 col-md-1 col-sm-2 col-xs-2 text-left">
+                                    {% include '@GYL\UsuarioBundle/Resources/views/Validation/validation.html.twig' %}
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-lg-offset-2  col-md-12 col-sm-12 col-xs-12">
+                                <input  class="btn btn-primary col-lg-11 col-md-12 col-sm-12 col-xs-12"
+                                        type="submit"
+                                        id="_submit"
+                                        name="_submit"
+                                        value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}"
+                                />
+                            </div>
+
+
+
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay"></div>
+
+            {% include '@GYL\UsuarioBundle/Resources/views/Partials/modal.html.twig' %}
+
+        </section>
+        <hr class="hr-footer">
+    </main>
+    {% include '@GYL\UsuarioBundle/Resources/views/Partials/footer.html.twig' %}
+
+{% endblock %}

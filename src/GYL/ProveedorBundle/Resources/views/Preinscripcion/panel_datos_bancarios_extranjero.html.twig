@@ -1,0 +1,171 @@
+{% block javascripts %}
+    {% javascripts '@panel_datos_bancarios_extranjero_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse"
+     href="#datos-bancarios-extranjero"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Datos Bancarios</h5>
+
+</div>
+<div class="panel-body collapse" id="datos-bancarios-extranjero">
+
+    <label for="" class="col-sm-4 control-label">¿La cuenta bancaria es en el exterior?</label>
+    <div class="col-sm-2">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+            <button type="button"
+                    {% if datoBancario is not null and  datoBancario.cuentaLocal != 0 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                    data-toggle="button"
+                    autocomplete="off" id="cuentaExtranjeroDatoBancario">
+                <div class="handle"></div>
+            </button>
+        {% else %}
+            <button type="button" disabled
+                    {% if datoBancario is not null and  datoBancario.cuentaLocal != 0 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                    data-toggle="button"
+                    autocomplete="off" id="cuentaExtranjeroDatoBancario">
+                <div class="handle"></div>
+            </button>
+        {% endif %}
+    </div>
+
+    {{ form_start(formDatosBancariosExtranjero,  {'attr': {'id': 'form-datos-bancarios-extranjero', 'class': 'form-horizontal col-md-12 datos-registro pad-top'}} ) }}
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>Localidad</label>
+                    <div class="col-md-8">  
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.localidad_dato_bancario) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.localidad_dato_bancario,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class=" control-label"><span class="text-danger">*</span>Swift</label>
+                    <div class="col-md-8"> 
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.swift) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.swift,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>ABA</label>
+                    <div class="col-md-8"> 
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.aba) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.aba,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class=" control-label"><span class="text-danger"></span>IBAN</label>
+                    <div class="col-md-8">    
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.iban) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.iban,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>Nro de
+                        Cuenta</label>
+                    <div class="col-md-8">    
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.numero_cuenta_dato_bancario) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.numero_cuenta_dato_bancario,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>Beneficiario</label>
+                    <div class="col-md-8">    
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.beneficiario) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.beneficiario,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>Moneda</label>
+                    <div class="col-md-8">    
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.moneda) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.moneda,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger"></span>Banco
+                        Corresponsal</label>
+                    <div class="col-md-8">    
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.banco_corresponsal) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.banco_corresponsal,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger"></span>Swift Banco Corresponsal</label>
+                    <div class="col-md-8">    
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            {{ form_widget(formDatosBancariosExtranjero.swift_banco_corresponsal) }}
+                        {% else %}
+                            {{ form_widget(formDatosBancariosExtranjero.swift_banco_corresponsal,{ 'attr':{'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+        <button type="submit" class="btn btn-info  btn-borrador" id="guardarDatosBancariosExtranjero" style="float: right">
+        <span>  {% image '@saveldpi1' %}
+                <img class="image-responsive" src="{{ asset_url }}">
+            {% endimage %}</span></button>
+    {% endif %}
+    {{ form_end(formDatosBancariosExtranjero) }}
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <div class="clearfix"></div>
+
+</div>

@@ -1,0 +1,733 @@
+{% block javascripts %}
+    {% javascripts '@panel_datos_impositivos' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse"
+     href="#datos-impositivos"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Datos Impositivos</h5>
+
+</div>
+<div class="panel-body collapse" id="datos-impositivos">
+
+
+    <div class="clearfix"></div>
+    <!--****************************        			IVA    *************************-->
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5><span
+                        class="text-danger"><strong>*</strong></span>IVA</h5></div>
+        <div class="panel-body">
+            <div class="col-lg-12">
+                {{ form_start(formIva,  {'attr': {'id': 'tipo-iva', 'class': 'form-horizontal'}} ) }}
+                <div class="col-sm-3 col-sm-offset-1">
+                    <div class="form-group">
+                        {{ form_widget(formIva.id_tipo_iva_iva) }}
+                        <div id="errorMsgTipoIva" tabindex="-1"></div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class="col-sm-2 text-right"><label>Exento</label></div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                <button type="button"
+                                        {% if panelImpIva.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_ivaBtn">
+                                    <div class="handle"></div>
+                                </button>
+                                <i class="glyphicon glyphicon-pencil" id="showModalExcentoIva" style="cursor: pointer;color:#00c1e0;{% if panelImpIva.exento != 1 %}display: none;{% endif %}"></i>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpIva.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_ivaBtn">
+                                    <div class="handle"></div>
+                                </button>
+                                <i class="glyphicon glyphicon-pencil" id="showModalExcentoIva" style="cursor: pointer;color:#00c1e0;{% if panelImpIva.exento != 1 %}display: none;{% endif %}"></i>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-4 text-right"><label>¿Es sujeto pasible de
+                                retención?</label></div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                <button type="button"
+                                        {% if panelImpIva.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_ivaBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpIva.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_ivaBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class="text-right">
+                            {{ form_label(formIva.otros_iva) }}
+                        </div>
+                        <div class="col-sm-6">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                {{ form_widget(formIva.otros_iva) }}
+                            {% else %}
+                                {{ form_widget(formIva.otros_iva,{ 'attr': {'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                    <button type="submit" class="btn" id="submitformIva" style="display:none"></button>
+                {% endif %}
+                {{ form_end(formIva) }}
+            </div>
+
+            {# <div class="col-lg-5 col-md-6">
+
+                <p><strong>Documentación </strong><span><button type="button"
+                                                                class="btn btn-primary btn-xs"><i
+                                class="fa fa-question text-white"
+                                aria-hidden="true"></i></button></span></p>
+                <div class="col-lg-offset-1">
+                    <form class="form-inline" id="formDocIva">
+                        <div class="form-group" id="form-group-for-append-iva">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                <input type="file" id="inputDocIva" class="inputfile" style="float:left">
+                                <label for="inputDocIva" style="cursor: pointer;  float:left">Adjuntar archivo</label>
+                                <div class="input-group" style="margin: 1em">
+                                    <input style="width: 20em" type="text" class="form-control adjunto"
+                                           placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameIva">
+                                </div>
+                            {% endif %}
+                            {% if documentacionIva is not empty %}
+                                {% for documentoIva in documentacionIva %}
+                                    <div class="row" id="savedIvaDoc{{ documentoIva.id }}">
+                                        <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                               placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                               id="savedInputFileNameIva{{ documentoIva.id }}"
+                                               value="{{ documentoIva.publicfilename }}" disabled>
+                                        {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                            <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                               onclick="quitarDocumentoIva({{ documentoIva.id }})"
+                                               style="cursor: pointer;"></i>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div> #}
+            {% if observacionEvaluacionIva is not null %}
+                {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' with {'observacionEvaluacion': observacionEvaluacionIva } %}
+            {% endif %}
+        </div>
+    </div>  <!--cierra panel IVA-->
+
+    <!--****************************        			SUSS     *************************-->
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5><span
+                        class="text-danger"><strong>*</strong></span>Regimen de la Seguridad
+                Social
+                (SUSS)</h5></div>
+        <div class="panel-body">
+
+            <div class="col-lg-12">
+                {{ form_start(formSuss,  {'attr': {'id': 'tipo-suss', 'class': 'form-horizontal'}} ) }}
+                <div class="col-sm-2 col-sm-offset-1">
+                    <div class="form-group">
+                        {{ form_widget(formSuss.id_tipo_iva_suss) }}
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        {{ form_widget(formSuss.personal_a_cargo_suss) }}
+                    </div>
+                </div>
+                <div id="errorMsgTipoSuss" tabindex="-1"></div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="col-sm-10 text-right">
+                            <label>¿Es sujeto pasible de retención?</label>
+                        </div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionSuss is not null) %}
+                                <button type="button"
+                                        {% if panelImpSuss.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_sussBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpSuss.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_sussBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 text-right"><label>Exento</label></div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionSuss is not null) %}
+                                <button type="button"
+                                        {% if panelImpSuss.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_sussBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpSuss.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_sussBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn" id="submitformSuss" style="display:none"></button>
+                {{ form_end(formSuss) }}
+            </div>
+
+            {# <div class="col-lg-5  col-md-6">
+
+                <p><strong>Documentación </strong><span><button type="button"
+                                                                class="btn btn-primary btn-xs"><i
+                                class="fa fa-question text-white"
+                                aria-hidden="true"></i></button></span></p>
+                <div class="col-lg-offset-1">
+                    <form class="form-inline" id="formDocSuss">
+                        <div class="form-group" id="form-group-for-append-suss">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                <input type="file" id="inputDocSuss" class="inputfile" style="float:left">
+                                <label for="inputDocSuss" style="cursor: pointer;  float:left">Adjuntar archivo</label>
+                                <div class="input-group" style="margin: 1em">
+                                    <input style="width: 20em" type="text" class="form-control adjunto"
+                                           placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameSuss">
+                                </div>
+                            {% endif %}
+                            {% if documentacionSuss is not empty %}
+                                {% for documentoSuss in documentacionSuss %}
+                                    <div class="row" id="savedSussDoc{{ documentoSuss.id }}">
+                                        <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                               placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                               id="savedInputFileNameSuss{{ documentoSuss.id }}"
+                                               value="{{ documentoSuss.publicfilename }}" disabled>
+                                        {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                            <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                               onclick="quitarDocumentoSuss({{ documentoSuss.id }})"
+                                               style="cursor: pointer;"></i>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div> #}
+            {% if observacionEvaluacionSuss is not null %}
+                {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' with {'observacionEvaluacion': observacionEvaluacionSuss } %}
+            {%endif %}
+        </div>
+    </div> <!--cierra SUSS-->
+
+    <!--****************************        			GCIAS     *************************-->
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5><span
+                        class="text-danger"><strong>*</strong></span>Ganancias</h5></div>
+        <div class="panel-body">
+
+            <div class="col-lg-12">
+                {{ form_start(formGanancias,  {'attr': {'id': 'tipo-gcias', 'class': 'form-horizontal'}} ) }}
+
+                <div class="col-sm-3 col-sm-offset-1">
+                    <div class="form-group">
+                        {{ form_widget(formGanancias.id_tipo_iva_ganancias) }}
+                        <div id="errorMsgTipoGcias" tabindex="-1"></div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class="col-sm-2 text-right"><label>Exento</label></div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionGanancias is not null) %}
+                                <button type="button"
+                                        {% if panelImpGncias.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_gananciasBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpGncias.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_gananciasBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-4 text-right"><label>¿Es sujeto pasible de
+                                retención?</label></div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionGanancias is not null) %}
+                                <button type="button"
+                                        {% if panelImpGncias.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_gananciasBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpGncias.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_gananciasBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class="text-right">{{ form_label(formGanancias.otros_ganancias) }}</div>
+                        <div class="col-sm-6">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionGanancias is not null) %}
+                                {{ form_widget(formGanancias.otros_ganancias) }}
+                            {% else %}
+                                {{ form_widget(formGanancias.otros_ganancias,{ 'attr': {'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionGanancias is not null) %}
+                    <button type="submit" class="btn" id="submitformGanancias" style="display:none"></button>
+                {% endif %}
+                {{ form_end(formGanancias) }}
+
+            </div>
+            {# <div class="col-lg-5  col-md-6">
+
+                <p><strong>Documentación </strong><span><button type="button"
+                                                                class="btn btn-primary btn-xs"><i
+                                class="fa fa-question text-white"
+                                aria-hidden="true"></i></button></span></p>
+                <div class="col-lg-offset-1">
+                    <form class="form-inline" id="formDocGncias">
+                        <div class="form-group" id="form-group-for-append-gncias">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                <input type="file" id="inputDocGncias" class="inputfile" style="float:left">
+                                <label for="inputDocGncias" style="cursor: pointer;  float:left">Adjuntar
+                                    archivo</label>
+                                <div class="input-group" style="margin: 1em">
+                                    <input style="width: 20em" type="text" class="form-control adjunto"
+                                           placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                           id="inputFileNameGncias">
+                                </div>
+                            {% endif %}
+                            {% if documentacionGncias is not empty %}
+                                {% for documentoGncias in documentacionGncias %}
+                                    <div class="row" id="savedGnciasDoc{{ documentoGncias.id }}">
+
+                                        <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                               placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                               id="savedInputFileNameGncias{{ documentoGncias.id }}"
+                                               value="{{ documentoGncias.publicfilename }}" disabled>
+                                        {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                            <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                               onclick="quitarDocumentoGncias({{ documentoGncias.id }})"
+                                               style="cursor: pointer;"></i>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div> #}
+            {% if observacionEvaluacionGanancias is not null %}
+                {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' with {'observacionEvaluacion': observacionEvaluacionGanancias } %}
+            {%endif %}
+        </div>
+    </div>  <!--cierra panel gcias-->
+
+
+    <!--****************************        			IIBB     *************************-->
+
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5><span
+                        class="text-danger"><strong>*</strong></span>Ingresos Brutos</h5></div>
+        <div class="panel-body">
+            <div class="col-lg-12">
+                {{ form_start(formIibb,  {'attr': {'id': 'tipo-iibb', 'class': 'form-horizontal'}} ) }}
+                <div id="errorMsgTipoIibb" tabindex="-1"></div>
+
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <div class="row">
+                            {{ form_label(formIibb.numero_inscripcion_iibb) }}
+                            <div class="col-sm-7">
+                                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIIBB is not null) or unlockForm %}
+                                    {{ form_widget(formIibb.numero_inscripcion_iibb) }}
+                                {% else %}
+                                    {{ form_widget(formIibb.numero_inscripcion_iibb,{ 'attr': {'disabled':'disabled'} }) }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        {{ form_label(formIibb.jurisdiccion_iibb) }}
+                        <div class="col-sm-7">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIIBB is not null) or unlockForm %}
+                                {{ form_widget(formIibb.jurisdiccion_iibb) }}
+                            {% else %}
+                                {{ form_widget(formIibb.jurisdiccion_iibb,{ 'attr': {'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        {{ form_widget(formIibb.id_tipo_iva_iibb) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-2 ">
+                    <div class="form-group">
+                        {{ form_widget(formIibb.id_tipo_iva_inscripto) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class="col-sm-2 text-right"><label>Exento</label></div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIIBB is not null) or unlockForm %}
+                                <button type="button"
+                                        {% if panelImpIibb.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_iibbBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpIibb.exento == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="exento_iibbBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-4 text-right"><label>¿Es sujeto pasible de
+                                retención?</label></div>
+                        <div class="col-sm-2">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIIBB is not null) or unlockForm %}
+                                <button type="button"
+                                        {% if panelImpIibb.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_iibbBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% else %}
+                                <button type="button" disabled
+                                        {% if panelImpIibb.retencion == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                                        data-toggle="button"
+                                        autocomplete="off" id="retencion_iibbBtn">
+                                    <div class="handle"></div>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class=" text-right">
+                            {{ form_label(formIibb.otros_iibb) }}
+                        </div>
+                        <div class="col-sm-6">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIIBB is not null) or unlockForm %}
+                                {{ form_widget(formIibb.otros_iibb) }}
+                            {% else %}
+                                {{ form_widget(formIibb.otros_iibb,{ 'attr': {'disabled':'disabled'} }) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIIBB is not null) or unlockForm %}
+                    <button type="submit" class="btn" id="submitformIibb" style="display:none"></button>
+                {% endif %}
+                {{ form_end(formIibb) }}
+
+            </div>
+
+            {# <div class="col-lg-5  col-md-6">
+
+                <p><strong>Documentación </strong><span><button type="button"
+                                                                class="btn btn-primary btn-xs"><i
+                                class="fa fa-question text-white"
+                                aria-hidden="true"></i></button></span></p>
+                <div class="col-lg-offset-1">
+                    <form class="form-inline" id="formDocIibb">
+                        <div class="form-group" id="form-group-for-append-iibb">
+                            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                <input type="file" id="inputDocIibb" class="inputfile" style="float:left">
+                                <label for="inputDocIibb" style="cursor: pointer;  float:left">Adjuntar archivo</label>
+                                <div class="input-group" style="margin: 1em">
+                                    <input style="width: 20em" type="text" class="form-control adjunto"
+                                           placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameIibb">
+                                </div>
+                            {% endif %}
+                            {% if documentacionIibb is not empty %}
+                                {% for documentoIibb in documentacionIibb %}
+                                    <div class="row" id="savedIibbDoc{{ documentoIibb.id }}">
+                                        <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                               placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                               id="savedInputFileNameIibb{{ documentoIibb.id }}"
+                                               value="{{ documentoIibb.publicfilename }}" disabled>
+                                        {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                            <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                               onclick="quitarDocumentoIibb({{ documentoIibb.id }})"
+                                               style="cursor: pointer;"></i>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div> #}
+            {% if observacionEvaluacionIIBB is not null %}
+                {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' with {'observacionEvaluacion': observacionEvaluacionIIBB } %}
+            {%endif %}
+        </div>
+    </div> <!--cierra iibb-->
+
+    <!--**************************** DDJJ *************************-->
+
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5><span
+                        class="text-danger"><strong>*</strong></span>DDJJ</h5></div>
+        <div class="panel-body" id="div-ddjj" tabindex="1">
+            <p>En cumplimiento del Decreto 202/2017, se requiere se remita la Declaracion Jurada de intereses, cuyo modelo podrá descargar desde este <a id="docDdjj" target="_self" href="documentos/{{ ddjjFilename }}">link</a>.
+                Por Favor, adjunte imagen de dicho formulario completo y firmado.</p>
+            <br><br>
+            <div class="col-lg-12">
+                <p><strong>Declaración Jurada Intereses </strong><span><button type="button" class="btn btn-primary btn-xs">
+                            <i class="fa fa-question text-white" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Por favor, adjuntar el archivo escaneado de la DDJJ firmada"></i></button></span></p>
+                <div class="form-group" id="form-group-for-append-ddjj">
+                    <input type="file" id="form_inputFileNameDdjj" class="inputfile" style="float:left" {% if documentacionDdjj is empty %}required{% endif %} {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}{% else %}disabled{% endif %}>
+                    <label for="form_inputFileNameDdjj" style="{% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}cursor: pointer;{% else %}cursor: not-allowed;{% endif %}  float:left">Adjuntar archivo</label>
+                    {% if documentacionDdjj is not empty %}
+                        {% for documentoDdjj in documentacionDdjj %}
+                            <br><br>
+                            <div class="row" id="savedDdjjDoc{{ documentoDdjj.id }}" style="margin-left:0.2%;">
+                                <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameDdjj{{ documentoDdjj.id }}"
+                                       value="{{ documentoDdjj.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                       onclick="quitarDocumentoDdjj({{ documentoDdjj.id }})"
+                                       style="cursor: pointer;"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div> <!--cierra ddjj-->
+
+    <div class="col-lg-12">
+        {{ form_start(formCae,  {'attr': {'id': 'tipo-cae', 'class': 'form-horizontal'}} ) }}
+        <div id="errorMsgTipoCae" tabindex="-1"></div>
+        <div class="form-group">
+            <div class="col-sm-1 col-sm-offset-1">
+                {{ form_widget(formCae.cae_dato_impositivo) }}
+            </div>
+            <div class="col-sm-1">
+                {{ form_widget(formCae.cai_dato_impositivo) }}
+
+            </div>
+            {{ form_label(formCae.otros_dato_impositivo) }}
+            <div class="col-sm-3 text-right">
+                    {{ form_widget(formCae.otros_dato_impositivo) }}
+            </div>
+        </div>
+        {{ form_end(formCae ) }}
+
+    </div>
+
+    {% if observacionEvaluacionCae is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' with {'observacionEvaluacion': observacionEvaluacionIva } %}
+    {% endif %}
+
+    <div class="col-lg-12  pad-top">
+        <p><strong>Constancia de Inscripcion </strong><span><button type="button"
+                                                                    class="btn btn-primary btn-xs"><i
+                            class="fa fa-question text-white"
+                            aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Por favor, adjuntar el archivo escaneado de todas las constancias de inscripciones que correspondan"></i></button></span></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocDatosImpositivos">
+                <div class="form-group" id="form-group-for-append-datosimpositivos">
+                    {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and (observacionEvaluacion is not null or observacionEvaluacionCae is not null)) or unlockForm %}
+                        <input type="file" id="inputDocDatosImpositivos" class="inputfile" style="float:left">
+                        <label for="inputDocDatosImpositivos" style="cursor: pointer;  float:left">Adjuntar archivo</label>
+                        <div class="input-group" style="margin: 1em; display: none;">
+                            <input style="width: 20em" type="text" class="form-control adjunto"
+                                   placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                   id="inputFileNameDatosImpositivos">
+                        </div>
+                    {% endif %}
+                    {% if documentacionDatosImpositivos is not empty %}
+                        {% for documentoDatosImpositivos in documentacionDatosImpositivos %}
+                            <div class="row" id="savedDatosImpositivosDoc{{ documentoDatosImpositivos.id }}">
+                                <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameDatosImpositivos{{ documentoDatosImpositivos.id }}"
+                                       value="{{ documentoDatosImpositivos.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacionCae is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                       onclick="quitarDocumentoDatosImpositivos({{ documentoDatosImpositivos.id }})"
+                                       style="cursor: pointer;"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-12 text-right">
+            {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and (observacionEvaluacionIva is not null or
+                observacionEvaluacionSuss is not null or
+                observacionEvaluacionGanancias is not null or
+                observacionEvaluacion is not null or
+                observacionEvaluacionIIBB is not null or
+                observacionEvaluacionCae is not null)) %}
+                <button type="button" class="btn btn-info  btn-borrador" onclick="guardarDatosImpositivos()">
+
+                    <span> {% image '@saveldpi1' %}
+                            <img class="image-responsive" src="{{ asset_url }}">
+                        {% endimage %}</span></button>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+
+<!-- modal -->
+<div id="exentoIva" class="modal fade">
+    <div class="modal-dialog modal-dialog-registro">
+        <div class="modal-content modal-content-registro">
+            <div class="modal-header modal-header-registro">
+                <button type="button" id="cerrarModalExento" class="close"
+                ><span>X</span></button>
+
+                <h4 id="label-datos-exento" class="modal-title">Agregar Datos Exento</h4>
+            </div>
+            <div class="modal-body modal-body-registro">
+
+                <div class="col-lg-11 col-lg-offset-1">
+                    {{ form_start(formExento,  {'attr': {'id': 'tipo-exento', 'class': 'form-horizontal'}} ) }}
+                    {% form_theme formExento with['form_div_layout.html.twig','bootstrap_3_horizontal_layout.html.twig'] %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="" class="col-sm-5 control-label text-left"><span class="text-danger">*</span>Fecha desde</label>
+                            <div class="col-sm-7 form-group">
+                                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                    {{ form_widget(formExento.exento_fecha_desde,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formExento.exento_fecha_desde)}}
+                                {% else %}
+                                    {{ form_widget(formExento.exento_fecha_desde,{ 'attr': {'disabled':'disabled'} }) }}
+                                    {{ form_errors(formExento.exento_fecha_desde)}}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="" class="col-sm-5 control-label text-left"><span class="text-danger">*</span>Fecha hasta</label>
+                            <div class="col-sm-7 form-group">
+                                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                    {{ form_widget(formExento.exento_fecha_hasta,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formExento.exento_fecha_hasta)}}
+                                {% else %}
+                                    {{ form_widget(formExento.exento_fecha_hasta,{ 'attr': {'disabled':'disabled'} }) }}
+                                    {{ form_errors(formExento.exento_fecha_hasta)}}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="" class="col-sm-5 control-label text-left"><span class="text-danger">*</span>Porcentaje exensión</label>
+                            <div class="col-sm-7 form-group">
+                                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                    {{ form_widget(formExento.exento_porcentaje_exencion,{ 'attr': {'class': 'form-control', 'min': 0, 'max': 100} }) }}
+                                    {{ form_errors(formExento.exento_porcentaje_exencion)}}
+                                {% else %}
+                                    {{ form_widget(formExento.exento_porcentaje_exencion,{ 'attr': {'disabled':'disabled'} }) }}
+                                    {{ form_errors(formExento.exento_porcentaje_exencion)}}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="" class="col-sm-5 control-label text-left"><span class="text-danger">*</span>Régimen</label>
+                            <div class="col-sm-7 form-group">
+                                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                    {{ form_widget(formExento.exento_regimen,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formExento.exento_regimen)}}
+                                {% else %}
+                                    {{ form_widget(formExento.exento_regimen,{ 'attr': {'disabled':'disabled'} }) }}
+                                    {{ form_errors(formExento.exento_regimen)}}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="" class="col-sm-5 control-label">Otros</label>
+                            <div class="col-sm-7 form-group">
+                                {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                                    {{ form_widget(formExento.exento_otros,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formExento.exento_otros)}}
+                                {% else %}
+                                    {{ form_widget(formExento.exento_otros,{ 'attr': {'disabled':'disabled'} }) }}
+                                    {{ form_errors(formExento.exento_otros)}}
+
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" id="agregarFormExentoBtn" class="btn btn-primary">
+                        Agregar
+                    </button>
+                    {% if estadoEvaluacionGral is null or unlockForm or (estadoEvaluacionGral == 4 and observacionEvaluacionIva is not null) %}
+                        <button type="submit" class="btn" id="submitformExento" style="display:none"></button>
+                    {% endif %}
+                    {{ form_end(formExento) }}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content-registro -->
+    </div><!-- /.modal-dialog-registro -->
+</div><!-- /.modal-registro -->

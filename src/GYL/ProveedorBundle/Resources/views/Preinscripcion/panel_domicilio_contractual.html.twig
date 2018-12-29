@@ -1,0 +1,153 @@
+{% block javascripts %}
+    {% javascripts '@panel_domicilio_contractual_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse"
+     href="#dom-contractual"
+     aria-expanded="false" aria-controls="collapseExample"><h5>Domicilio Contractual CABA</h5>
+</div>
+<div class="panel-body collapse" id="dom-contractual">
+    <div class="col-md-12">
+        {{ form_start(domicilioFormContractual ,{'attr': {'id': 'domicilioFormContractual', 'class': 'form-horizontal col-lg-11 col-lg-offset-1 datos-registro pad-top'}} ) }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group ">
+                    <label class="control-label" style="float:left;"
+                           id="label-provincia"><span class="text-danger">*</span>Código Postal</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.codigo_postal,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormContractual.codigo_postal) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.codigo_postal,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormContractual.codigo_postal) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label ml-fl-domicilio"
+                           id="label-calle"><span class="text-danger">*</span>Calle/Nro de calle</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.calle,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormContractual.calle) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.calle,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormContractual.calle) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group ">
+                    <label class="control-label" style="float:left;"
+                           id="label-piso">Piso</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.piso,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormContractual.piso) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.piso,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormContractual.piso) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label ml-fl-domicilio" style="float:left;"
+                           id="label-dpto">Dpto</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.departamento,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormContractual.departamento) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.departamento,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormContractual.departamento) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label" style="float:left;"
+                           id="label-telefono"><span class="text-danger">*</span>Teléfono</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.telefono,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormContractual.telefono) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormContractual.telefono,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormContractual.telefono) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {# <div class="col-lg-12   pad-top">
+            <p><strong>Documentación </strong><span><button type="button"
+                                                            class="btn btn-primary btn-xs"><i
+                            class="fa fa-question text-white"
+                            aria-hidden="true"></i></button></span></p>
+            <div class="col-lg-11 col-lg-offset-1">
+                <form class="form-inline" id="formDocContractual">
+                    <div class="form-group" id="form-group-for-append-contractual">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                            <input type="file" id="inputDocContractual" class="inputfile" style="float:left;">
+                            <label for="inputDocContractual" style="cursor: pointer;  float:left; min-width: 150px;">Adjuntar archivo</label>
+                            <div class="input-group" style="margin: 1em">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameContractual">
+                            </div>
+                        {% endif %}
+                        {% if documentacionContractual is not empty %}
+                            {% for documentoContractual in documentacionContractual %}
+                                <div class="row" id="savedContractualDoc{{ documentoContractual.id }}">
+                                    <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                           placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                           id="savedInputFileNameContractual{{ documentoContractual.id }}"
+                                           value="{{ documentoContractual.publicfilename }}" disabled>
+                                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm%}
+                                        <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                           onclick="quitarDocumentoContractual({{ documentoContractual.id }})" style="cursor: pointer; padding-top: 1.5%;"></i>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div> #}
+        <div class="text-right">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <button type="submit" class="btn btn-info  btn-borrador" id="submitDomicilioFormContractual">
+                <span> {% image '@saveldpi1' %}
+                        <img class="image-responsive" src="{{ asset_url }}">
+                    {% endimage %}</span></button>
+            {% endif %}
+        </div>
+
+        {{ form_end(domicilioFormContractual) }}
+        {% if observacionEvaluacion is not null %}
+            {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+        {%endif %}
+    </div>
+</div>

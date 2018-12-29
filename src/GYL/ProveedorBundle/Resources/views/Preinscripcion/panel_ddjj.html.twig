@@ -1,0 +1,53 @@
+{% block javascripts %}
+    {% javascripts '@panel_ddjj_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#ddjj"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Declaración Jurada</h5>
+
+</div>
+<div class="panel-body collapse" id="ddjj">
+
+    <p class="ddjj text-justify">
+        "Declaro bajo juramento que la información consignada precedentemente y toda la
+        documentación presentada y a presentar en el Registro de Proveedores revisten carácter
+        de
+        Declaración Jurada. Asimismo, me responsabilizo de su veracidad, y me comprometo a
+        mantenerla actualizada y facilitar su verificación por parte de ADIFSE en todo
+        momento.<br><br>
+
+        En caso de detectarse la falsedad o falsificación de documentación u omisión de
+        información
+        y/o de los datos incorporados a la información aportada, ADIFSE se reserva el derecho de
+        permanencia o baja del proveedor en su Registro, todo ello sin perjuicio de las acciones
+        que
+        por derecho pudieren corresponder a ADIFSE ante las falsedades o falsificaciones
+        detectadas."
+    </p>
+    <p class="ddjj  text-justify">
+        Acepto y presto conformidad sin condicionamiento alguno a que serán válidas y fehacientes cualquier tipo de notificación y/o comunicación que ADIF realice alguno cualquiera de los domicilios y correos electrónicos informados en el registro de proveedores.
+        Al final de la pagina a la que lleva el link poner un botón de volver a la pagina anterior y justificar el texto al que lleva el hipervinculo.
+    </p>
+
+    <div class="col-lg-12 text-right pad-top">
+
+
+        {{ form_start(formDeclaracionJurada,  {'attr': {'id': 'formDDJJ' , 'class': 'form-inline'}} ) }}
+        <a target="_blank" href="{{ path('ddjj-detalles') }}">
+            ACEPTO TERMINOS Y CONDICIONES
+        </a>
+            {% if estadoEvaluacionGral is null or unlockForm %}
+        {{ form_widget(formDeclaracionJurada.acepta) }}
+        {{ form_errors(formDeclaracionJurada.acepta) }}
+        {% else %}
+            {{ form_widget(formDeclaracionJurada.acepta,{ 'attr':{'disabled':'disabled'} }) }}
+        {% endif %}
+        {{ form_end(formDeclaracionJurada ) }}
+
+
+    </div>
+
+
+</div>

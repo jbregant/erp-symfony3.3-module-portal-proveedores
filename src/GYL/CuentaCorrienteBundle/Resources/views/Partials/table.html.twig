@@ -1,0 +1,102 @@
+{% block cuenta_corriente_table %}
+    <div id="div-tabla-cuentas">
+        {% if registros|length == 0 %}
+            <div class="note note-info text-center">
+                <h4 class="block">El proveedor no posee datos en su cuenta corriente</h4>
+            </div>
+        {% else %}
+            <table class="table table-hover" id="tabla-cuentas">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-left">Tipo documento</th>
+                        <th class="text-right">Nro. documento</th>
+                        <th class="text-right">Estado</th>
+                        <th class="text-right">Monto</th>
+                        <th class="text-center">Fecha comprobante</th>
+                        <th class="text-center">Fecha ingreso ADIFSE</th>
+                        <th><a target="_blank" href="{{ path('cuenta_corriente_print', {'idProveedor': idProveedor}) }}" id="exportarCC"><i class="fa fa-file-pdf-o" style="font-size:24px; color: white;" title="Exportar cuenta corriente"></i></a></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registro in registros %}
+                        <tr class="tr-tramo {{ not registro.mostrar ? 'hidden ocultable' : ''}}">
+                            <td class= "text-left" colSpan="7" title="{{ registro.descripcion }}" style="max-width: 500px;">
+                                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100%;">
+                                    {{ registro.descripcion|length > 150 ? registro.descripcion|slice(0, 150) ~ '...' : registro.descripcion }}
+                                </span>
+                            </td>
+                            <td colSpan="2" class="text-right"><span class="saldo_total">{{ registro.saldo|money_format }}</span></td>
+                        </tr>
+                        {% for ordenesPago in registro %}
+                            {% set ultimo = FALSE %}
+                            {% for ordenPago in ordenesPago %}
+                                {% set ultimo = loop.last ? TRUE : FALSE %}
+                                {% set mostrarRegistroBlanco = FALSE %}
+                                {% for comprobante in ordenPago %}
+                                    {% if comprobante.mostrar %} 
+                                        {% set mostrarRegistroBlanco = TRUE %}
+                                    {% else %}
+                                        {% set mostrarRegistroBlanco = FALSE %}
+                                    {% endif %}
+                                    <tr class="{{ not comprobante.mostrar ? 'hidden ocultable' : '' }}">
+                                        <td></td>
+                                        {% if comprobante.tipo == 'Orden de pago' or comprobante.tipo == 'Pago parcial' %}
+                                            <td class="text-right" style="color: black; font-weight: bold;">{{ comprobante.tipo }}</td>
+                                            <td class="text-right" style="color: black; font-weight: bold;">{{ comprobante.numero }}</td>
+                                            <td class="text-right" style="color: black; font-weight: bold;">{{ comprobante.estado }}</td>
+                                            <td class="text-right" style="color: black; font-weight: bold;">{{ comprobante.saldo|money_format }}</td>
+                                            <td style="color: black; font-weight: bold;">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                            <td style="color: black; font-weight: bold;">{{ comprobante.fechaIngreso|date('d/m/Y') }}</td>
+                                        {% else %}
+                                            <td class="text-left">{{ comprobante.tipo }}</td>
+                                            <td class="text-right">{{ comprobante.numero }}</td>
+                                            <td class="text-right">{{ comprobante.estado }}</td>
+                                            <td class="text-right">{{ comprobante.saldo|money_format }}</td>
+                                            <td>{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                            <td>{{ comprobante.fechaIngreso|date('d/m/Y') }}</td>
+                                        {% endif %}
+                                        {% if comprobante.url %}
+                                            <td><a href="{{ path('cuenta_corriente_print_orden_pago', {'id': comprobante.idOrdenPago ,'idProveedor' : idProveedor ,'discriminador' : comprobante.discriminador})  }}"><i class="fa fa-file-pdf-o" aria-hidden="true" title="Exportar orden de pago"></i></a></td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                                {% if not ultimo %}
+                                    {% if mostrarRegistroBlanco %}
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr class="hidden ocultable">
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

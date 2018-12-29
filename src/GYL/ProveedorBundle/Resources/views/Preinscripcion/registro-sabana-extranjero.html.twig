@@ -1,0 +1,337 @@
+{% extends 'base.html.twig' %}
+{% block title %}ADIF S.E. - Formulario de pre-inscripción{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets  '@formulario_pre_inscripcion_css'
+                    '@bootstrap_datetimepicker_css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts  '@bootstrap_datetimepicker_js'
+                    '@bootstrap_datetimepicker_local_es_js'
+                    '@registro_sabana_js' %}
+        <script src="{{ asset_url }}"></script>
+        <script>
+            var idTiempoRespuesta = "{{ idTiempoRespuesta }}";
+        </script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+
+    {% include '@ProveedorBundle/Resources/views/Partials/header.html.twig' %}
+
+    {% block fos_user_content %}
+        <main role="main">
+            <section id="registro_static">
+                <div class="container-fluid">
+                    <div class="row" style="margin-top: 2px;">
+                        <!--****************************       			TIPO DE PROVEEDOR       *************************-->
+                        {% include('ProveedorBundle::Preinscripcion/panel_datos_iniciales.html.twig') with {'estadoEvaluacionGral': estadoEvaluacionGral} %}
+                        <div class="alert alert-info" style="pointer-events: none; {#margin-top: 6%#}"
+                             id="alert-info-formulario-sabana">
+                            <div class="col-md-offset-5 col-sm-offset-4">
+                                {% image '@loading_gif' %}
+                                <img class="image-responsive" src="{{ asset_url }}" style="position: absolute;"
+                                     id="loading-gif">
+                                {% endimage %}
+                            </div>
+                            <form id="tipo-proveedor" style="opacity: 0.4;">
+                                <h5 class="d-i-fp">Tipo de Proveedor</h5>
+                                <div class="form-group d-i-fp">
+                                    {{ form_start(tipoProveedorExtranjero) }}
+                                    <label class="m-l-10">
+                                        {{ form_widget(tipoProveedorExtranjero.persona_juridica_extranjera,{ 'attr': {'class': 'cambioChx', 'onclick': ' personaJuridicaExtranjera(this)'} }) }}
+                                        Persona jurídica extranjera
+                                    </label>
+                                    <label class="m-l-10">
+                                        {{ form_widget(tipoProveedorExtranjero.persona_fisica_extranjera_no_residente_del_pais,{ 'attr': {'class': 'cambioChx', 'onclick': 'personaFisicaExtranjeraNoResidente(this)'} }) }}
+                                        Persona física extranjera no residente en el país
+                                    </label>
+                                    {{ form_end(tipoProveedorExtranjero ) }}
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                    <!--****************************       			TIMELINE       *************************-->
+
+                    <div class="row">
+                        <div class="container">
+                            {{ 
+                            render(controller('ProveedorBundle:TimeLine:timeline', { 'idProvDatoPersonal': idProvDatoPersonal })) }}
+                        </div>
+                    </div><!-- cierra TIMELINE-->
+                </div><!-- cierra container-->
+                {% include '@GYL\UsuarioBundle/Resources/views/Partials/modal.html.twig' %}
+            </section>
+
+
+            <!--****************************       			PANELES REGISTRO        *************************-->
+            <section id="registro_etapas" hidden>
+                <div class="container">
+                    <div class="row">
+                        <!--****************************        			PANEL DATOS CONTACTO      *************************-->
+                        <div class="panel panel-default" id="panel-datos-contacto">
+
+                            {{ render(controller('ProveedorBundle:ProveedorDatoContacto:datosContacto',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+
+                        </div><!-- cierra panel datos contacto-->
+
+                        <!--****************************        			PANEL DATOS PERSONA JURIDICA EXTRANJERA     *************************-->
+
+                        <div class="panel panel-default" id="panel-persona-juridica-extranjera">
+
+                            {{ render(controller('ProveedorBundle:PersonaJuridicaExtranjera:datosPersonaJuridicaExtranjera',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra datos juridica extranjera-->
+
+                        <!--****************************        			PANEL DATOS PERSONA FISICA EXTRANJERA     *************************-->
+
+                        <div class="panel panel-default" id="panel-persona-fisica-extranjera">
+
+                            {{ render(controller('ProveedorBundle:PersonaFisicaExtranjera:datosPersonaFisicaExtranjera',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra datos fisica extranjera-->
+
+
+                        <!--****************************        			PANEL ACTIVIDAD     *************************-->
+                        <div class="panel panel-default" id="panel-actividad-extranjero">
+
+                            {{ render(controller('ProveedorBundle:ProveedorActividad:proveedorActividadExtranjero',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra panel actividad-->
+
+                        <!--****************************        			PANEL RUBRO      *************************-->
+                        <div class="panel panel-default" id="panel-rubro">
+
+                            {{ render(controller('ProveedorBundle:Rubro:rubro',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra panel rubro-->
+
+                        <!--****************************        			PANEL DOMICILIO EXTERIOR      *************************-->
+                        <div class="panel panel-default" id="panel-dom-exterior">
+
+                            {{ render(controller('ProveedorBundle:Domicilio:domicilioExterior',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra panel dom exterior-->
+
+                        <!--****************************        			PANEL DOMICILIO FISCAL      *************************-->
+                        <div class="panel panel-default" id="panel-dom-fiscal">
+
+                            {{ render(controller('ProveedorBundle:Domicilio:domicilioFiscal',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra panel dom fiscal-->
+
+
+                        <!--****************************        			PANEL DOMICILIO CONTRACTUAL     *************************-->
+                        <div class="panel panel-default" id="panel-dom-contractual">
+
+                            {{ render(controller('ProveedorBundle:Domicilio:domicilioContractual',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra panel dom  contractual-->
+
+                        <!--****************************        			PANEL DREPRESENTATES APODERADOS     *************************-->
+                        <div class="panel panel-default" id="panel-representante-apoderado">
+
+                            {{ render(controller('ProveedorBundle:RepresentanteApoderado:representantesApoderados',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra panel representate apoderado -->
+
+
+                        <!--****************************        			PANEL DATOS BANCARIOS      *************************-->
+                        <div class="panel panel-default" id="panel-datos-bancarios">
+
+                            {{ render(controller('ProveedorBundle:DatoBancario:datosBancariosExtranjero',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra datos bancarios-->
+
+
+                        <!--****************************        			PANEL GCSHM     *************************-->
+
+                        <div class="panel panel-default" id="panel-datos-gcshm">
+
+                            {{ render(controller('ProveedorBundle:PanelGcshm:datosGcshm',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra datos gcshm-->
+
+
+                        <!--****************************        			PANEL DDJJ     *************************-->
+                        <div class="panel panel-default" id="panel-ddjj">
+
+                            {{ render(controller('ProveedorBundle:DeclaracionJurada:declaracionJurada',
+                                { 'estadoEvaluacionGral': estadoEvaluacionGral, 'idProvDatoPersonal': idProvDatoPersonal, 'unlockForm': unlockForm }
+                            )) }}
+
+                        </div><!-- cierra DDJJ-->
+
+                        <div class="col-lg-12 text-center">
+                            {% if estadoEvaluacionGral is null %}
+                                <button type="button" class="btn btn-secondary btn-checkTimeLineStatus" id="btn-GeneraPreInscripcion">Generar Pre-Inscripción</button>
+                            {% elseif estadoEvaluacionGral == 4 or (estadoEvaluacionGral == 2 and unlockForm)%}
+                                <button type="button" class="btn btn-secondary btn-checkTimeLineStatus" id="btn-ActualizaPreInscripcion">Actualizar Pre-Inscripción</button>
+                            {% endif %}
+                            {% if unlockForm %}
+                                <button type="button" class="btn btn-secondary btn-checkTimeLineStatus" id="btn-cancelarActualzacion">Cancelar Modificación</button>
+                            {% endif %}
+                        </div>
+
+
+                    </div><!-- cierra row-->
+                </div><!-- cierra container-->
+            </section>
+
+        </main>
+
+    {% endblock fos_user_content %}
+
+    {% include '@ProveedorBundle/Resources/views/Partials/footer.html.twig' %}
+
+    <!-- modal agregar proveedor -->
+    <div id="modal-agregar-proveedor" class="modal fade">
+        <div class="modal-dialog modal-dialog-registro">
+            <div class="modal-content modal-content-registro">
+                <div class="modal-header modal-header-registro">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span>X</span></button>
+
+                    <h4 class="modal-title">Agregar Proveedor</h4>
+                </div>
+                <div class="modal-body modal-body-registro">
+
+                    <form id="agregarProveedorForm" action="{{ path("agregar_proveedor") }}" method="post">
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-1">
+                                    <label><b>¿Proveedor Extranjero?</b></label>
+                                    <button id="extranjero" name="extranjero" type="button" class="btn btn-sm btn-secondary btn-toggle" data-toggle="button" aria-pressed="false"
+                                            autocomplete="off"
+                                            onclick="proveedorExtranjero(this)">
+                                        <div class="handle"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {#<div class="form-group">#}
+                            {#<div class="col-lg-offset-1 col-lg-2 col-md-1 col-sm-2 col-xs-2">#}
+                            {#<label><b>Email</b></label>#}
+                            {#</div>#}
+                            {#<div class="col-lg-10 col-lg-offset-1">#}
+                            {#<input type="email" class="form-control" id="email" name="email" placeholder="email@prueba.com" required="required"/>#}
+                            {#</div>#}
+                            {#</div>#}
+
+                            <div class="form-group fg-identificacion-tributaria" hidden>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8">
+                                    <label><b>Nro. de Identificación tributaria del país</b></label>
+                                </div>
+                                <div class="col-lg-10 col-lg-offset-1" style="margin-bottom: 10px">
+                                    <input type="text" id="identificacion_tributaria" name="identificacion_tributaria" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group fg-cuit">
+                                <div class="col-lg-offset-1 col-lg-2 col-md-1 col-sm-2 col-xs-2">
+                                    <label><b>Cuit</b></label>
+                                </div>
+                                <div class="col-lg-10 col-lg-offset-1" style="margin-bottom: 10px">
+                                    <input type="text" id="cuit_agregar_proveedor" name="cuit" class="form-control" required="required">
+                                </div>
+                            </div>
+
+                            <div class="form-group fg-website" hidden>
+                                <div class="col-lg-6 col-md-4 col-sm-3 col-xs-3">
+                                    <label for="website"><b>Dirección Web</b></label>
+                                </div>
+                                <div class="col-lg-10 col-lg-offset-1" style="margin-bottom: 10px">
+                                    <input type="url" id="website" name="website" class="form-control" placeholder="http://www.google.com">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="btn-agregar-proveedor">
+                            Agregar
+                        </button>
+                    </form>
+
+                    {#{{ form_end(datosContacto) }}#}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content-registro -->
+    </div><!-- /.modal-dialog-registro -->
+    </div><!-- /.modal-registro -->
+
+    <!-- modal unlock form -->
+    <div id="modal-unlock-form" class="modal fade">
+        <div class="modal-dialog modal-dialog-registro">
+            <div class="modal-content modal-content-registro modal-content-unlock">
+                <div class="modal-header modal-header-registro">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span>X</span></button>
+                    <h4 class="modal-title">Modificar Datos</h4>
+                </div>
+                <div class="modal-body modal-body-registro">
+                    <form id="unlock-form" action="{{ path("preinscripcion_formulario_id_dato_personal_unlock") }}" method="post">
+                        <div class="row">
+                            <div class="col-lg-10 col-lg-offset-1">
+                                Desea desbloquear los paneles para poder modicar sus datos?
+                            </div>
+                            <br><br>
+                            <div class="col-lg-10 col-lg-offset-3">
+                                <button type="submit" class="btn btn-primary" id="btn-unlock-form">
+                                    Aceptar
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="btn-unlock-form-cancel">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer modal-footer-registro">
+        </div>
+    </div>
+    <!-- /.modal-content-registro -->
+    </div><!-- /.modal-dialog-registro -->
+    </div><!-- modal unlock form -->
+
+{% endblock %}

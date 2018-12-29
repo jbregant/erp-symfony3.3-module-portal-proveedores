@@ -1,0 +1,40 @@
+{#{% if estadoEvaluacionGral == 3 %}#}
+    {#<div class="alert alert-danger" role="alert">#}
+        {#<strong>Esta pre-inscripción ha sido Rechazada</strong>.#}
+    {#</div>#}
+{#{% endif %}#}
+
+<div class="info-usuario">
+    <div class="container-fluid">
+        <form class="form-horizontal" id="datos-iniciales">
+            <div class="row">
+                <div class="col-md-2">
+                    <p>Formulario de inscripción</p>
+                </div>
+                <div class="col-md-1 text-right">
+                    <p>Email</p>
+                </div>
+                <div class="col-md-3">
+                    <input type="email" class="form-control" id="email"
+                           placeholder="{{ user.email }}"
+                           disabled>
+                </div>
+                {% if proveedorDatoPersonal.extranjero %}
+                    <div class="col-md-3 text-right">
+                        <p>Nro. de Identificación tributaria</p>
+                    </div>
+                {% else %}
+                    <div class="col-md-1 text-right">
+                        <p>CUIT</p>
+                    </div>
+                {% endif %}
+                <div class="col-md-2">
+                    <input type="number" class="form-control" id="cuit" placeholder="{% if proveedorDatoPersonal.extranjero %}{{ proveedorDatoPersonal.numeroIdTributaria }}{% else %}{{ proveedorDatoPersonal.cuit }}{% endif %}" disabled>
+                </div>
+                <div class="col-md-1 middle-align">
+                    <span class="label label-default middle-align">{% if proveedorDatoPersonal.idProveedorAsoc %} Proveedor {% else %} Inscripción {% endif %}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+{% block javascripts %}
+    {% javascripts '@persona_fisica_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#datos-persona-fisica"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Persona Física</h5>
+</div>
+<div class="panel-body collapse" id="datos-persona-fisica">
+
+    <div class="col-md-12">
+        {{ form_start(personaFisica ,{'attr': {'id': 'personaFisicaForm', 'class': 'form-horizontal col-lg-11 col-lg-offset-1 datos-registro'}} ) }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="form_nombre" class="col-sm-5 control-label col-sm-2 control-label required"><span class="text-danger">*</span>Nombre</label>
+                    {# {{ form_label(personaFisica.nombre, null, {'label_attr': {'class': 'col-sm-5 control-label'}}) }} #}
+                    <div class="col-md-10 col-sm-12">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(personaFisica.nombre,{ 'attr': {'class': 'form-control'} }) }}
+                        {% else %}
+                            {{ form_widget(personaFisica.nombre,{ 'attr': {'disabled':'disabled'} }) }}
+                        {% endif %}
+                        {{ form_errors(personaFisica.nombre) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="form_apellido" class="col-sm-5 control-label col-sm-2 control-label required"><span class="text-danger">*</span>Apellido</label>
+                    {# {{ form_label(personaFisica.apellido, null, {'label_attr': {'class': 'col-sm-5 control-label'}}) }} #}
+                    <div class="col-md-10 col-sm-12">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(personaFisica.apellido,{ 'attr': {'class': 'form-control'} }) }}
+                        {% else %}
+                            {{ form_widget(personaFisica.apellido,{ 'attr': {'disabled':'disabled'} }) }}
+                        {% endif %}
+                        {{ form_errors(personaFisica.apellido) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group ">
+                    {#{{ form_label(personaFisica.tipo_documento, null, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}#}
+                    <label class="col-sm-5 control-label col-sm-2 control-label required" for="form_tipo_documento"><span class="text-danger">*</span>Tipo Documento</label>
+                    <div class="col-md-10 col-sm-12">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(personaFisica.tipo_documento,{ 'attr': {'class': 'form-control', 'required': true} }) }}
+                        {% else %}
+                            {{ form_widget(personaFisica.tipo_documento,{ 'attr': {'disabled':'disabled', 'required': true} }) }}
+                        {% endif %}
+                        {{ form_errors(personaFisica.tipo_documento) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {#{{ form_label(personaFisica.numero_documento, null, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}#}
+                    <label class="col-sm-5 control-label col-sm-2 control-label" for="form_numero_documento"><span class="text-danger">*</span>Numero de Documento</label>
+                    <div class="col-md-10 col-sm-12">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(personaFisica.numero_documento,{ 'attr': {'class': 'form-control documento-mask','oninput':'setCustomValidity("")'} }) }}
+                        {% else %}
+                            {{ form_widget(personaFisica.numero_documento,{ 'attr': {'disabled':'disabled'} }) }}
+                        {% endif %}
+                        {{ form_errors(personaFisica.numero_documento) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-right">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <button type="submit" class="btn btn-info" id="guardarDatosPersonaFisica">
+                    <span>   {% image '@saveldpi1' %}
+                            <img class="image-responsive" src="{{ asset_url }}">
+                        {% endimage %}</span></button>
+        {% endif %}
+    </div>
+    {{ form_end(personaFisica) }}
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <!--****************************        			DOCUMENTACION      *************************-->
+
+</div>

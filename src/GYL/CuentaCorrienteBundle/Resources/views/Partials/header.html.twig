@@ -1,0 +1,49 @@
+<header>
+    <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12 bg-cyan band-header alto-reducido">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <select class="form-control selectpicker" style="font-size: 12px;" name="idProveedor" id="proveedor-selector">
+                    {% for proveedor in proveedores %}
+                        <option value="{{ proveedor.idProveedor }}" >
+                            {% if proveedor.cuit is not null %}
+                                CUIT:
+                                {{ proveedor.cuit }}
+                                /
+                            {% endif %}
+                            {% if proveedor.razonSocial is not null %}
+                                Razon Social:
+                                {{ proveedor.razonSocial }}
+                            {% elseif proveedor.nombre is not null and proveedor.apellido is not null%}
+                                Nombre:
+                                {{ proveedor.nombre }} {{ proveedor.apellido }}
+                            {% else %}
+                                ---
+                            {% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                <button id="button-compensadas" class="btn btn-info btn-fact-comp">Mostrar facturas Compensadas</button>
+            </div>
+            {% if datosUsuario %}
+                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <a href="{{ path('preinscripcion_formulario') }}" class="btn btn-info btn-fact-comp" >Formulario de inscripcion</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 bg-blue">
+        {% image '@logo_png' %}
+            <img class="logo-trenes" alt="Trenes" src="{{ asset_url }}">
+        {% endimage %}
+
+        <div class="container-fluid navbar-right">
+            <ul class="nav navbar-nav">
+                {% include '@GYL\CuentaCorrienteBundle/Resources/views/Partials/menu.html.twig' %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider-white-cuentas"></div>
+
+</header>

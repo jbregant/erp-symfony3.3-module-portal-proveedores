@@ -1,0 +1,275 @@
+{% block javascripts %}
+    {% javascripts '@panel_gcshm_js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block stylesheets %}
+    {% stylesheets
+        '@i_switch_css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#datos-gcshm"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Certificación de Calidad, Seguridad e Higiene y Medioambiente</h5>
+</div>
+<div class="panel-body collapse" id="datos-gcshm">
+
+    <div class="form-group col-lg-10 pad-top">
+        <label for="" class="col-sm-10 control-label">¿Posee Certificación ISO9001 o Plan de
+            Gestión y Control de la calidad (PGC)? {{ estadoEvaluacionGral }}</label>
+        <div class="col-sm-2">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <button type="button"
+                        {% if gcshm.certificacioniso9001 == 1 %} class="fafafa btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off" id="iso9001btnGcshm">
+                    <div class="handle"></div>
+                </button>
+            {% else %}
+                <button type="button" disabled
+                        {% if gcshm.certificacioniso9001 == 1 %} class=" {{ estadoEvaluacionGral }} btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off" id="iso9001btnGcshm">
+                    <div class="handle"></div>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!--************ archivo certificado ISO9001 o Plan de Gestion y Control de la calidad *************-->
+    <div class="col-lg-12  pad-top">
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocGcshmISO9001">
+                <div class="form-group" id="form-group-for-append-gcshm-ISO9001">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <input type="file" id="inputDocGcshmISO9001" class="inputfile">
+                        <label for="inputDocGcshmISO9001" style="cursor: pointer">Adjuntar archivo</label>
+                        <div class="input-group" style="margin: 1em; display: none;">
+                            <input style="width: 20em" type="text" class="form-control adjunto"
+                                   placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameGcshmISO9001">
+                        </div>
+                    {% endif %}
+                    {% if documentacionGcshmISO9001 is not empty %}
+                        {% for documentoGcshmISO9001 in documentacionGcshmISO9001 %}
+                            <div class="row iso9001" id="savedGcshmDocISO9001{{ documentoGcshmISO9001.id }}" id-doc="{{ documentoGcshmISO9001.id }}">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameGcshmISO9001{{ documentoGcshmISO9001.id }}"
+                                       value="{{ documentoGcshmISO9001.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2" aria-hidden="true"
+                                       onclick="quitarDocumentoGcshmISO9001({{ documentoGcshmISO9001.id }})" style="cursor: pointer; padding-top: 1.5%"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="form-group col-lg-10 pad-top">
+        <label for="" class="col-sm-10 control-label">¿Posee Certificación ISO14001 o
+            Análisis
+            de Riesgos y Plan de Gestión Ambiental (PGA)?</label>
+        <div class="col-sm-2">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <button type="button"
+                        id="iso14001btnGcshm"
+                        {% if gcshm.certificacioniso14001 == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+            {% else %}
+                <button type="button" disabled
+                        id="iso14001btnGcshm"
+                        {% if gcshm.certificacioniso14001 == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off">
+                    <div class="handle"></div>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!--************ archivo certificado ISO14001 o Analisis de Riesgos y Plan de Gestion Ambiental *************-->
+    <div class="col-lg-12  pad-top">
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocGcshmISO14001">
+                <div class="form-group" id="form-group-for-append-gcshm-ISO14001">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <input type="file" id="inputDocGcshmISO14001" class="inputfile">
+                        <label for="inputDocGcshmISO14001" style="cursor: pointer">Adjuntar archivo</label>
+                        <div class="input-group" style="margin: 1em; display: none;">
+                            <input style="width: 20em" type="text" class="form-control adjunto"
+                                   placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameGcshmISO14001">
+                        </div>
+                    {% endif %}
+                    {% if documentacionGcshmISO14001 is not empty %}
+                        {% for documentoGcshmISO14001 in documentacionGcshmISO14001 %}
+                            <div class="row iso14001" id="savedGcshmDocISO14001{{ documentoGcshmISO14001.id }}" id-doc="{{ documentoGcshmISO14001.id }}">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameGcshmISO14001{{ documentoGcshmISO14001.id }}"
+                                       value="{{ documentoGcshmISO14001.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2" aria-hidden="true"
+                                       onclick="quitarDocumentoGcshmISO14001({{ documentoGcshmISO14001.id }})" style="cursor: pointer; padding-top: 1.5%"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="form-group col-lg-10 pad-top">
+        <label for="" class="col-sm-10 control-label">¿Posee Certificación OSHA 18001 o
+            Programa
+            de Seguridad (PDS)?</label>
+        <div class="col-sm-2">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                <button type="button"
+                        {% if gcshm.certificacionosha18001 == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off" id="osha18001btnGcshm">
+                    <div class="handle"></div>
+                </button>
+            {% else %}
+                <button type="button" disabled
+                        {% if gcshm.certificacionosha18001 == 1 %} class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"{% else %} class="btn btn-sm btn-secondary btn-toggle" aria-pressed="false"{% endif %}
+                        data-toggle="button"
+                        autocomplete="off" id="osha18001btnGcshm">
+                    <div class="handle"></div>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!--************ archivo certificado OSHA18001 o Programa de Seguridad (PDS) *************-->
+    <div class="col-lg-12  pad-top">
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocGcshmOSHA18001">
+                <div class="form-group" id="form-group-for-append-gcshm-OSHA18001">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <input type="file" id="inputDocGcshmOSHA18001" class="inputfile">
+                        <label for="inputDocGcshmOSHA18001" style="cursor: pointer">Adjuntar archivo</label>
+                        <div class="input-group" style="margin: 1em; display: none;">
+                            <input style="width: 20em" type="text" class="form-control adjunto"
+                                   placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameGcshmOSHA18001">
+                        </div>
+                    {% endif %}
+                    {% if documentacionGcshmOSHA18001 is not empty %}
+                        {% for documentoGcshmOSHA18001 in documentacionGcshmOSHA18001 %}
+                            <div class="row osha18001" id="savedGcshmDocOSHA18001{{ documentoGcshmOSHA18001.id }}" id-doc="{{ documentoGcshmOSHA18001.id }}">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameGcshmOSHA18001{{ documentoGcshmOSHA18001.id }}"
+                                       value="{{ documentoGcshmOSHA18001.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2" aria-hidden="true"
+                                       onclick="quitarDocumentoGcshmOSHA18001({{ documentoGcshmOSHA18001.id }})" style="cursor: pointer; padding-top: 1.5%"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <!--****************************        			PANEL OTROS      *************************-->
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5>OTROS</h5></div>
+        <div class="panel-body">
+            {{ form_start(formDatosGcshm,  {'attr': {'id': 'form-datos-gcshm', 'class': 'form-horizontal'}} ) }}
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(formDatosGcshm.permisos_ambientales) }}
+                        {% else %}
+                            {{ form_widget(formDatosGcshm.permisos_ambientales,{ 'attr': {'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-6">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(formDatosGcshm.documentacion_evaluacion) }}
+                        {% else %}
+                            {{ form_widget(formDatosGcshm.documentacion_evaluacion,{ 'attr': {'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-9">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(formDatosGcshm.organigrama_institucional_obra) }}
+                        {% else %}
+                            {{ form_widget(formDatosGcshm.organigrama_institucional_obra,{ 'attr': {'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-9">
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            {{ form_widget(formDatosGcshm.pese) }}
+                        {% else %}
+                            {{ form_widget(formDatosGcshm.pese,{ 'attr': {'disabled':'disabled'} }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {{ form_end(formDatosGcshm) }}
+
+        </div>
+    </div>  <!--cierra panel otros gcshm-->
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {% endif %}
+
+    <!--****************************        			DOCUMENTACION     *************************-->
+    <div class="col-lg-12  pad-top">
+        <p><strong>Documentación </strong><span><button type="button"
+                                                        class="btn btn-primary btn-xs" ><i
+                        class="fa fa-question text-white"
+                        aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Por favor, adjuntar los comprobantes de las certificaciones, organigramas y demás documentaciones de respaldo en los casos que se indiquen poseer"></i></button></span></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocGcshm">
+                <div class="form-group" id="form-group-for-append-gcshm">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <input type="file" id="inputDocGcshm" class="inputfile">
+                        <label for="inputDocGcshm" style="cursor: pointer">Adjuntar archivo</label>
+                        <div class="input-group" style="margin: 1em; display: none;">
+                            <input style="width: 20em" type="text" class="form-control adjunto"
+                                   placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameGcshm">
+                        </div>
+                    {% endif %}
+                    {% if documentacionGcshm is not empty %}
+                        {% for documentoGcshm in documentacionGcshm %}
+                            <div class="row" id="savedGcshmDoc{{ documentoGcshm.id }}">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameGcshm{{ documentoGcshm.id }}"
+                                       value="{{ documentoGcshm.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2" aria-hidden="true"
+                                       onclick="quitarDocumentoGcshm({{ documentoGcshm.id }})" style="cursor: pointer; padding-top: 1.5%"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-12 text-right">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <button type="submit" class="btn btn-info btn-borrador" id="submitGchsm">
+                <span> {% image '@saveldpi1' %}
+                    <img class="image-responsive" src="{{ asset_url }}">
+                    {% endimage %}</span></button>
+                {% endif %}
+    </div>
+</div>

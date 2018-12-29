@@ -1,0 +1,4 @@
+services:
+#    gyl_user.example:
+#        class: GYL\UsuarioBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

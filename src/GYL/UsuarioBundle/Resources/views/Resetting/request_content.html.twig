@@ -1,0 +1,40 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+
+    {% for mensajes in app.flashes %}
+        {% for mensaje in mensajes %}
+            <div class="reg-form-error">{{ mensaje }}</div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="form-group">
+        <div class="col-lg-offset-1 col-lg-10 col-md-1 col-sm-2 col-xs-2 text-left">
+            <label for="username">{{ 'resetting.request.username'|trans }}</label>
+        </div>
+
+        <div class="col-lg-10 col-lg-offset-1">
+            <input  type="email"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    placeholder="email@mail.com"
+                    required="required"
+            />
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 ol-md-12 col-sm-12 col-xs-12 margin-top-10">
+            <div id="my-recaptcha2" class="g-recaptcha" data-size="normal" data-sitekey="{{ recaptcha_public_key }}"></div>
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 margin-top-10">
+            <input  class="btn btn-primary col-lg-11 col-md-12 col-sm-12 col-xs-12"
+                    type="submit"
+                    id="_submit"
+                    name="_submit"
+                    value="{{ 'resetting.request.submit'|trans }}"
+            />
+        </div>
+
+    </div>
+</form>

@@ -1,0 +1,316 @@
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+        scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
+        jsqueeze: ~
+
+    bundles: ~
+
+    assets:
+            style_css:
+                inputs:
+                    - '%kernel.root_dir%/../app/Resources/public/css/style.css'
+                filters: [cssrewrite]
+
+            jquery_js:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/components/jquery/jquery.min.js'
+                filters: [jsqueeze]
+
+            config_js:
+                inputs:
+                    - '%kernel.root_dir%/../app/Resources/public/js/config.js'
+                filters: [jsqueeze]
+
+            jquery_validate_js:
+                inputs:
+                    - '%kernel.root_dir%/../app/Resources/public/js/lib/validation/jquery.validate.min.js'
+                filters: [jsqueeze]
+
+            jquery_validate_messages_es_AR_js:
+                inputs:
+                    - '%kernel.root_dir%/../app/Resources/public/js/lib/validation/messages_es_AR.js'
+                filters: [jsqueeze]                
+
+            jquery_inputmask_js:
+                inputs:
+                    - '%kernel.root_dir%/../app/Resources/public/js/lib/inputmask/jquery.inputmask.bundle.min.js'
+                filters: [jsqueeze]
+
+            bootstrap_datetimepicker_js:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'                   
+                filters: [jsqueeze]
+
+            bootstrap_datetimepicker_local_es_js:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/components/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js'
+                filters: [jsqueeze]
+                 
+            bootstrap_datetimepicker_css:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'
+                filters: [cssrewrite]
+
+            funciones_js:
+                inputs:
+                    - '%kernel.root_dir%/../app/Resources/public/js/funciones.js'
+                filters: [jsqueeze]
+
+            recaptcha_js:
+                inputs:
+                    - '@GYLUsuarioBundle/Resources/public/js/recaptcha.js'
+                filters: [jsqueeze]
+
+            invit_js:
+                inputs:
+                    - '@GYLUsuarioBundle/Resources/public/js/invit.js'
+                filters: [jsqueeze]
+
+            invit_preinscripcion_js:
+                inputs:
+                    - '@ProveedorBundle/Resources/public/js/invit.js'
+                filters: [jsqueeze]
+
+            bootstrap_js:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.min.js'
+                filters: [jsqueeze]
+            bootstrap_css:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.min.css'
+                filters: [cssrewrite]
+
+            proveedor_actividad_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/proveedor-actividad.js'
+                filters: [jsqueeze]
+
+            bootstrap_glyphicons_ttf:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf'
+                output: "fonts/glyphicons-halflings-regular.ttf"
+            bootstrap_glyphicons_eot:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.eot'
+                output: "fonts/glyphicons-halflings-regular.eot"
+            bootstrap_glyphicons_svg:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.svg'
+                output: "fonts/glyphicons-halflings-regular.svg"
+            bootstrap_glyphicons_woff:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff'
+                output: "fonts/glyphicons-halflings-regular.woff"
+
+            font_awesome_css:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/css/font-awesome.min.css'
+                filters: [cssrewrite]
+            font_awesome_eot:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.eot'
+                output: "fonts/fontawesome-webfont.eot"
+            font_awesome_svg:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.svg'
+                output: "fonts/fontawesome-webfont.svg"
+            font_awesome_ttf:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.ttf'
+                output: "fonts/fontawesome-webfont.ttf"
+            font_awesome_woff:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff'
+                output: "fonts/fontawesome-webfont.woff"
+            font_awesome_woff2:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff2'
+                output: "fonts/fontawesome-webfont.woff2"
+            font_awesome_otf:
+                inputs:
+                    - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/FontAwesome.otf'
+                output: "fonts/FontAwesome.otf"
+
+            i_switch_css:
+                inputs:
+                     - '%kernel.root_dir%/../app/Resources/public/css/i-switch.css'
+                filters: [cssrewrite]
+
+            formulario_pre_inscripcion_css:
+                inputs:
+                     - '%kernel.root_dir%/../app/Resources/public/css/formulario-pre-inscripcion.css'
+                filters: [cssrewrite]
+
+            poncho_css:
+                inputs:
+                    - '%kernel.root_dir%/../app/Resources/public/css/droid-serif.css'
+                    - '%kernel.root_dir%/../app/Resources/public/css/roboto-fontface.css'
+                    - '%kernel.root_dir%/../app/Resources/public/css/poncho.css'
+                    - '%kernel.root_dir%/../app/Resources/public/css/poncho.css.map'
+                filters: [cssrewrite]
+
+            # Roboto_fonts:
+            #     inputs:
+            #         - '%kernel.root_dir%/../app/Resources/public/fonts/Roboto*'
+            #     output: "fonts/*"
+            roboto-bold-ttf:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Bold-webfont.ttf'
+                output: 'fonts/Roboto-Bold-webfont.ttf'
+            roboto-bold-woff:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Bold-webfont.woff'
+                output: 'fonts/Roboto-Bold-webfont.woff'
+            roboto-light-ttf:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Light-webfont.ttf'
+                output: 'fonts/Roboto-Light-webfont.ttf'
+            roboto-light-woff:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Light-webfont.woff'
+                output: 'fonts/Roboto-Light-webfont.woff'
+            roboto-medium-ttf:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Medium-webfont.ttf'
+                output: 'fonts/Roboto-Medium-webfont.ttf'
+            roboto-medium-woff:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Medium-webfont.woff'
+                output: 'fonts/Roboto-Medium-webfont.woff'
+            roboto-regular-ttf:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Regular-webfont.ttf'
+                output: 'fonts/Roboto-Regular-webfont.ttf'
+            roboto-regular-woff:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Regular-webfont.woff'
+                output: 'fonts/Roboto-Regular-webfont.woff'
+            roboto-thin-ttf:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Thin-webfont.ttf'
+                output: 'fonts/Roboto-Thin-webfont.ttf'
+            roboto-thin-woff:
+                inputs: '%kernel.root_dir%/../app/Resources/public/fonts/Roboto-Thin-webfont.woff'
+                output: 'fonts/Roboto-Thin-webfont.woff'
+
+            logo_png:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/logo.png'
+                output: 'images/logo.png'
+            logo_min:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/logo_min.png'
+                output: 'images/logo_min.png'
+            favicon:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/favicon.ico'
+            adifse_header_home:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/adifse_header_home.jpg'
+                output: 'images/adifse_header_home.jpg'
+            fa_lista_bg_png:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/fa_lista_bg.png'
+                output: 'images/fa_lista_bg.png'
+            fa_prov_bg_png:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/fa_prov_bg.png'
+                output: 'images/fa_prov_bg.png'
+            fa_lista_bg_svg:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/fa_lista_bg.svg'
+                output: 'images/fa_lista_bg.svg'
+            fa_prov_bg_svg:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/fa_prov_bg.svg'
+                output: 'images/fa_prov_bg.svg'
+            logo_argentina_png:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/logo_argentina.png'
+                output: 'images/logo_argentina.png'
+
+            saveldpi1:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/saveldpi1.png'
+                output: 'images/saveldpi1.png'
+
+            loading_gif:
+                inputs: '%kernel.root_dir%/../app/Resources/public/images/loading.gif'
+                output: 'images/loading_gif'
+
+            agregar_contacto_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/agregar-contacto.js'
+                filters: [jsqueeze]
+
+            panel_ute_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-ute.js'
+                filters: [jsqueeze]
+
+            registro_sabana_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/registro-sabana.js'
+                filters: [jsqueeze]
+
+            persona_fisica_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/persona-fisica.js'
+                filters: [jsqueeze]
+
+            cuenta_corriente_js:
+                inputs:
+                    - '@GYLCuentaCorrienteBundle/Resources/public/js/cuenta_corriente.js'
+                filters: [jsqueeze]
+
+            rubro_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/rubro.js'
+                filters: [jsqueeze]
+
+            panel_domicilio_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-domicilio.js'
+                filters: [jsqueeze]
+
+            panel_domicilio_fiscal_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-domicilio-fiscal.js'
+                filters: [jsqueeze]
+            panel_domicilio_contractual_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-domicilio-contractual.js'
+                filters: [jsqueeze]
+            panel_representante_apoderados_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-representantes-apoderados.js'
+                filters: [jsqueeze]
+            panel_datos_bancarios_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-datos-bancarios.js'
+                filters: [jsqueeze]
+            panel_gcshm_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-gcshm.js'
+                filters: [jsqueeze]
+            panel_datos_impositivos:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-datos-impositivos.js'
+                filters: [jsqueeze]
+            panel_persona_juridica_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-persona-juridica.js'
+                filters: [jsqueeze]
+            panel_persona_juridica_extranjera_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-persona-juridica-extranjera.js'
+                filters: [jsqueeze]
+            panel_persona_fisica_extranjera_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-persona-fisica-extranjera.js'
+                filters: [jsqueeze]
+            proveedor_actividad_extranjero_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-actividades-extranjero.js'
+                filters: [jsqueeze]
+            panel_domicilio_exterior_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-domicilio-exterior.js'
+                filters: [jsqueeze]
+            panel_datos_bancarios_extranjero_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-datos-bancarios-extranjeros.js'
+                filters: [jsqueeze]
+            panel_ddjj_js:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/panel-ddjj.js'
+                filters: [jsqueeze]
+            util_invitacion_form:
+                inputs:
+                  - '@ProveedorBundle/Resources/public/js/util-invitacion-form.js'
+                filters: [jsqueeze]

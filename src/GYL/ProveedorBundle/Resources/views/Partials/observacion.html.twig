@@ -1,0 +1,17 @@
+{% if observacionEvaluacion is not null %}
+    <div class="row">
+
+        <div class="form-group col-md-6" >
+            <label class="col-sm-3 control-label text-left" style="color: black !important;">Observación:</label>
+            <div class="col-md-8 col-sm-12">
+                            
+            {% for observacion in observacionEvaluacion %}
+                {% if loop.last %}
+                    <div class="detalle_show">{{observacion.observaciones}}</div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+

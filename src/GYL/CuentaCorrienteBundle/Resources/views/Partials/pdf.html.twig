@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            td, th {
+                min-width: 100px;
+                padding: 5px;
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+        {% block cuenta_corriente_table %}
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align:left; overflow:hidden; white-space:nowrap;">Tipo documento</th>
+                        <th style="text-align:right; overflow:hidden; white-space:nowrap;">Nro. documento</th>
+                        <th style="text-align:center; overflow:hidden; white-space:nowrap;">Estado</th>
+                        <th style="text-align:right; overflow:hidden; white-space:nowrap;">Monto</th>
+                        <th style="text-align:center; overflow:hidden; white-space:nowrap;">Fecha comprobante</th>
+                        <th style="text-align:center; overflow:hidden; white-space:nowrap;">Fecha ingreso ADIFSE</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registro in registros %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr class="tr-tramo">
+                            <td colspan="7"><b>*</b> {{ registro.descripcion }}</td>
+                            <td style="text-align:right; overflow:hidden; white-space:nowrap;">{{ registro.saldo|money_format }}</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+
+                        {% for ordenesPago in registro %}
+                            {% set ultimo = FALSE %}
+                            {% for ordenPago in ordenesPago %}
+                                {% set ultimo = loop.last ? TRUE : FALSE %}
+                                {% for comprobante in ordenPago %}
+                                    <tr>
+                                        <td></td>
+                                        {% if comprobante.tipo == 'Orden de pago' or comprobante.tipo == 'Pago parcial' %}
+                                            <td style="text-align:right; overflow:hidden; white-space:nowrap; color: black; font-weight: bold;">{{ comprobante.tipo }}</td>
+                                            <td style="text-align:right; overflow:hidden; white-space:nowrap; color: black; font-weight: bold;">{{ comprobante.numero }}</td>
+                                            <td style="text-align:center; overflow:hidden; white-space:nowrap; color: black; font-weight: bold;">{{ comprobante.estado }}</td>
+                                            <td style="text-align:right; overflow:hidden; white-space:nowrap; color: black; font-weight: bold;">{{ comprobante.saldo|money_format }}</td>
+                                            <td style="text-align:center; color: black; font-weight: bold;">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                            <td style="text-align:center; color: black; font-weight: bold;">{{ comprobante.fechaIngreso|date('d/m/Y') }}</td>
+                                        {% else %}
+                                            <td style="text-align:right; overflow:hidden; white-space:nowrap;">{{ comprobante.tipo }}</td>
+                                            <td style="text-align:right; overflow:hidden; white-space:nowrap;">{{ comprobante.numero }}</td>
+                                            <td style="text-align:center; overflow:hidden; white-space:nowrap;">{{ comprobante.estado }}</td>
+                                            <td style="text-align:right; overflow:hidden; white-space:nowrap;">{{ comprobante.saldo|money_format }}</td>
+                                            <td style="text-align:center; overflow:hidden; white-space:nowrap;">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                            <td style="text-align:center; overflow:hidden; white-space:nowrap;">{{ comprobante.fechaIngreso|date('d/m/Y') }}</td>
+                                        {% endif %}
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                                {% if not ultimo %}
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endblock %}
+    </body>
+    
+</html>

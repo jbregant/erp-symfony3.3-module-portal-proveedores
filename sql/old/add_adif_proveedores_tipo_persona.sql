@@ -1,0 +1,1 @@
+INSERT INTO adif_proveedores.tipo_persona (denominacion, fecha_creacion, fecha_ultima_actualizacion, id_usuario_creacion, id_usuario_ultima_modificacion, fecha_baja) VALUES ('Contratos de Colaboración Empresaria', '2018-03-02 11:21:55', '2018-03-02 11:21:55', null, null, null);

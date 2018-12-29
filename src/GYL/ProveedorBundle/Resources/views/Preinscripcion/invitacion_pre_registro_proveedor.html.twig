@@ -1,0 +1,40 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block title %}ADIF S.E. - Pre-inscripción{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets  '@i_switch_css' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    {% javascripts  '@invit_preinscripcion_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block fos_user_content %}
+
+    <main role="main">
+        <section class="jumbotron jumbobanner">
+            <div class="jumbotron_body_nopad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-5 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center bg-white-transparent border-rnd text-black pad-20">
+                            <h4>Datos Usuario</h4>
+                            {{ include('ProveedorBundle::Preinscripcion/invitacion_pre_registro_content.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay"></div>
+
+            {% include '@GYL\UsuarioBundle/Resources/views/Partials/modal.html.twig' %}
+            
+        </section>
+        <hr class="hr-footer">
+    </main>
+
+{% endblock fos_user_content %}

@@ -1,0 +1,273 @@
+{% block javascripts %}
+    {% javascripts '@panel_ute_js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#datos-ute"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Contratos de Colaboración Empresaria (UTE, ACE)</h5>
+</div>
+<div class="panel-body collapse" id="datos-ute">
+
+    {{ form_start(datosUte ,{'attr': {'id': 'uteForm', 'class':'form-horizontal col-lg-11 col-lg-offset-1 datos-registro pad-top'}} ) }}
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Denominación de Contrato
+            Asociativo UTE</label>
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.denominacion,{ 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {% else %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.denominacion,{ 'attr':{'disabled':'disabled'} }) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>N° de Inscripción ICGJ (Registro
+            Público de comercio, etc)</label>
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.numero_inscripcion,{ 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {% else %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.numero_inscripcion,{ 'attr': {'disabled':'disabled'} }) }}
+            </div>
+        {%endif %}
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Fecha de Constitución de Contrato</label>
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.fecha_constitucion,{ 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {% else %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.fecha_constitucion,{ 'attr': {'disabled':'disabled'} }) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Fecha de Finalización de Contrato</label>
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.fecha_finalizacion,{ 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {% else %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.fecha_finalizacion,{ 'attr': {'disabled':'disabled'} }) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Razón Social</label>
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.razon_social,{ 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {% else %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.razon_social,{ 'attr': {'disabled':'disabled'} }) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label">Nombre de Fantasía</label>
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.nombre_fantasia,{ 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {% else %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.nombre_fantasia,{ 'attr': {'disabled':'disabled'} }) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label">Dirección Web</label>
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.url,{ 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {% else %}
+            <div class="col-sm-7">
+                {{ form_widget(datosUte.url,{ 'attr': {'disabled':'disabled'} }) }}
+            </div>
+        {% endif %}
+    </div>
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+        <button type="submit" class="btn btn-info btn-borrador" id="uteFormularioSubmit"><span> {% image '@saveldpi1' %}
+                <img class="image-responsive" src="{{ asset_url }}">
+                {% endimage %}</span>
+        </button>
+    {% endif %}
+    {{ form_end(datosUte) }}
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <div class="clearfix"></div>
+    <div class="panel panel-celeste">
+        <div class="panel-heading bg-celeste text-white"><h5>Miembros Integrantes</h5></div>
+        <div class="panel-body">
+
+            <table class="table table-responsive table-striped tabla-registro"
+                   id="tabla-datos-ute">
+                <thead>
+                <tr>
+                    <td><span class="text-danger">*</span>CUIT</td>
+                    <td><span class="text-danger">*</span>Razón Social</td>
+                    <td><span class="text-danger">*</span>Nro de Inscripción</td>
+                    <td><span class="text-danger">*</span>% participación Gcias.</td>
+                    <td><span class="text-danger">*</span>% participación Remun.</td>
+                    <td><span class="text-danger">*</span>Empleador</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in utesM %}
+                    <tr id="miembro-ute-row-{{ item.id }}" class="miembroUteRow">
+                        <td id="id" hidden>{{ item.id }}</td>
+                        <td id="cuit">{{ item.cuit }}</td>
+                        <td id="rs">{{ item.razonSocial }}</td>
+                        <td id="inscripcion">{{ item.numeroInscripcion }}</td>
+                        <td id="ganancias" class="porcentaje-ganancias">{{ item.participacionGanancias }}</td>
+                        <td id="remuneracion" class="porcentaje-remuneracion">{{ item.participacionRemunerativa }}</td>
+                        {% if item.empleador == 1 %}
+                        <td> Si</td>
+                        {% else %}
+                        <td> No</td>
+                        {% endif %}
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <td><a onclick="quitarUte({{ item.id }})" class="glyphicon glyphicon-remove"></a>
+                            <a data-target="#agrega-miembro" data-toggle="modal" id="editarUte" class="editar-ute glyphicon glyphicon-pencil"></a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <!--****************************        			ABM      *************************-->
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <div class="col-lg-12 text-center botonera-abm">
+                <a class="btn btn-primary btn-abm" data-target="#agrega-miembro"
+                   data-toggle="modal" id="agregarMiembro" data-editar-flag="false">Agregar</a>
+            </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+
+    <!--****************************        			DOCUMENTACION      *************************-->
+    <div class="col-lg-12  pad-top">
+        <p><strong>Documentación </strong><span><button type="button"
+                                                        class="btn btn-primary btn-xs"><i
+                            class="fa fa-question text-white"
+                            aria-hidden="true"></i></button></span></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocUte">
+                <div class="form-group" id="form-group-for-append-ute">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                    <input type="file" id="inputDocUte" class="inputfile">
+                    <label for="inputDocUte" style="cursor: pointer">Adjuntar archivo</label>
+                    <div class="input-group" style="margin: 1em; display: none;">
+                        <input style="width: 20em" type="text" class="form-control adjunto"
+                               placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameUte">
+                    </div>
+                    {% endif %}
+                    {% if documentacionUte is not empty %}
+                        {% for documentoUte in documentacionUte %}
+                            <div class="row" id="savedUteDoc{{ documentoUte.id }}">
+                                <input style="width: 20em" type="text" class="form-control adjunto"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameUte{{ documentoUte.id }}"
+                                       value="{{ documentoUte.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                <i class="fa fa-times fa-2" aria-hidden="true"
+                                   onclick="quitarDocumentoUte({{ documentoUte.id }})" style="cursor: pointer;"></i>
+                                   {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-12 text-right">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <button id="saveBorradorUTE" type="button" class="btn btn-info btn-borrador"> <span> {% image '@saveldpi1' %}
+                        <img class="image-responsive" src="{{ asset_url }}">
+                    {% endimage %}</span></button>
+                    {% endif %}
+        </div>
+    </div>
+</div>
+
+<div id="agrega-miembro" class="modal fade">
+    <div class="modal-dialog modal-dialog-registro">
+        <div class="modal-content modal-content-registro">
+            <div class="modal-header modal-header-registro">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span>X</span></button>
+
+                <h4 class="modal-title">Agregar Miembro</h4>
+            </div>
+            <div class="modal-body modal-body-registro">
+                {{ form_start(formMiembro,  {'attr': {'id': 'miembroForm'}} ) }}
+                {% form_theme formMiembro with['form_div_layout.html.twig','bootstrap_3_horizontal_layout.html.twig'] %}
+                <div class="row">
+                    {{ form_label(formMiembro.cuit ,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6 form-group">
+                        {{ form_widget(formMiembro.cuit,{ 'attr': {'class': 'form-control cuil-mask'} }) }}
+                    </div>
+                     {{ form_label(formMiembro.razon_social_miembro,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6 form-group">
+                        {{ form_widget(formMiembro.razon_social_miembro,{ 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    {{ form_label(formMiembro.numero_inscripcion_miembro,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6 form-group">
+                        {{ form_widget(formMiembro.numero_inscripcion_miembro,{ 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                 <div class="row">
+                    {{ form_label(formMiembro.participacion_ganancias,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6 form-group">
+                        {{ form_widget(formMiembro.participacion_ganancias,{ 'attr': {'class': 'form-control', 'step': '.01'} }) }}
+                    </div>
+                </div>
+                <div class="row">
+                        <label class="col-sm-2 mw-250 control-label required">Empleador</label>
+                        <div class="col-md-6">
+                            <button type="button"
+                                class="btn btn-sm btn-secondary btn-toggle active" aria-pressed="true"
+                                data-toggle="button"
+                                autocomplete="off" id="empleador_Btn">
+                                <div class="handle"></div>
+                            </button>
+                        </div>
+                </div>
+                <div class="row">
+                    {{ form_label(formMiembro.participacion_remunerativa,null, { 'label_attr': {'class': 'mw-250  control-label'} }) }}
+                    <div class="col-md-6">
+                        {{ form_widget(formMiembro.participacion_remunerativa,{ 'attr': {'class': 'form-control', 'step': '.01'} }) }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="miembroFormularioSubmit"
+                        style="float: right;margin-top: 5%;">
+                    Agregar
+                </button>
+                {{ form_end(formMiembro) }}
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_ADIF_proveedores_host: 192.168.0.164
+    database_ADIF_proveedores_port: 3306
+    database_ADIF_proveedores_name: adif_proveedores
+    database_ADIF_proveedores_user: root
+    database_ADIF_proveedores_password: secret
+    database_ADIF_compras_host: 127.0.0.1
+    database_ADIF_compras_port: 3306
+    database_ADIF_compras_name: adif_compras
+    database_ADIF_compras_user: root
+    database_ADIF_compras_password: root
+    database_ADIF_contable_host: 127.0.0.1
+    database_ADIF_contable_port: 3306
+    database_ADIF_contable_name: adif_contable
+    database_ADIF_contable_user: root
+    database_ADIF_contable_password: root
+    database_ADIF_rrhh_host: 127.0.0.1
+    database_ADIF_rrhh_port: 3306
+    database_ADIF_rrhh_name: adif_rrhh
+    database_ADIF_rrhh_user: root
+    database_ADIF_rrhh_password: root
+    database_siga_autenticacion_host: 127.0.0.1
+    database_siga_autenticacion_port: 3306
+    database_siga_autenticacion_name: siga_autenticacion
+    database_siga_autenticacion_user: root
+    database_siga_autenticacion_password: root
+    app_ADIF_SIGA_dev: http://10.10.15.49
+    app_ADIF_SIGA_qa: http://192.168.10.31
+    app_ADIF_SIGA_prod: 
+    mailer_transport: smtp
+    mailer_host: smtp.office365.com
+    mailer_user: no_responder@adifse.com.ar
+    mailer_password: Nueva123
+    mailer_port: 587
+    mailer_encryption: tls
+    mailer_sender_name: 'ADIFSE Administrador'
+    secret: 92cb6c60aa7d63f71af3a99b94145a63028825da
+    session_max_idle_time: 900
+    recaptcha_url: https://www.google.com/recaptcha/api/siteverify
+    recaptcha_public_key: 6LeGpxsUAAAAACzuoJ7ZFG5AEed29qc-xEdslXsW
+    recaptcha_private_key: 6LeGpxsUAAAAALokc06Kx4X3JsEP-XfbPRUnZ7iq

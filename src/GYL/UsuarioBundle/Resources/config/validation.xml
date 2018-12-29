@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+        http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="FOS\UserBundle\Model\User">
+        <property name="plainPassword">
+            <constraint name="Regex">
+                <option name="pattern">/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,8}$/</option>
+                <option name="message">fos_user.password.validate</option>
+                <option name="groups">
+                    <value>myChangePassword</value>
+                </option>
+            </constraint>
+            
+        </property>
+    </class>
+</constraint-mapping>

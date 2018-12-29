@@ -1,0 +1,25 @@
+parameters:
+    # wsaa_dev
+    wsaa_dev.WSAA_WSDL_URL: https://wsaahomo.afip.gov.ar/ws/services/LoginCms?WSDL
+    wsaa_dev.WSAA_URL: https://wsaahomo.afip.gov.ar/ws/services/LoginCms
+
+    # wsaa_prod
+    wsaa_prod.WSAA_WSDL_URL: https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL
+    wsaa_prod.WSAA_URL: https://wsaa.afip.gov.ar/ws/services/LoginCms
+
+    # ws_sr_padron_a4_dev
+    ws_sr_padron_a4_dev.URL: https://awshomo.afip.gov.ar/sr-padron/webservices/personaServiceA4?WSDL
+    ws_sr_padron_a4_dev.PRIV_KEY: /ws_afip/ws_sr_padron_a4/certificates_dev/certificado_gyl_2018.key
+    ws_sr_padron_a4_dev.CERT: /ws_afip/ws_sr_padron_a4/certificates_dev/certificado_gyl_2018.crt
+    #ws_sr_padron_a4_dev.PRIV_KEY: /ws_afip/ws_sr_padron_a4/certificates_dev/claveprivada_test_gluis_2017.key
+    #ws_sr_padron_a4_dev.CERT: /ws_afip/ws_sr_padron_a4/certificates_dev/certificado_test_gluis_2017.crt
+    ws_sr_padron_a4_dev.cuitRepresentada: 20264053677 #GyL
+    ws_sr_padron_a4_dev.DIR: /ws_afip/ws_sr_padron_a4/certificates_dev/
+
+    # ws_sr_padron_a4_prod 
+    #ws_sr_padron_a4_prod.URL: https://awshomo.afip.gov.ar/sr-padron/webservices/personaServiceA4?WSDL
+    #ws_sr_padron_a4_prod.PRIV_KEYkey: /ws_afip/ws_sr_padron_a4/certificates_prod/claveprivada_test_gluis_2017.key
+    #ws_sr_padron_a4_prod.CERT: /ws_afip/ws_sr_padron_a4/certificates_prod/certificado_test_gluis_2017.crt
+    #ws_sr_padron_a4_prod.cuitRepresentada: 30710695993
+    ws_sr_padron_a4_prod.DIR: /ws_afip/ws_sr_padron_a4/certificates_prod/
+

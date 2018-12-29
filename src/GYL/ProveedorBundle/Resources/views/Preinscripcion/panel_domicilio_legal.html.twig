@@ -1,0 +1,155 @@
+{% block javascripts %}
+    {% javascripts '@panel_domicilio_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#dom-legal"
+     aria-expanded="false" aria-controls="collapseExample"><h5>Domicilio Legal</h5></div>
+<div class="panel-body collapse" id="dom-legal">
+    <div class="col-md-12">
+        {{ form_start(domicilioFormLegal ,{'attr': {'id': 'domicilioFormLegal', 'class': 'form-horizontal col-lg-11 col-lg-offset-1 datos-registro pad-top'}} ) }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="domicilio-provincia" class="control-label" style="float:left;"
+                           id="label-provincia"><span class="text-danger">*</span>Provincia</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm  %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.provincias_legal,{ 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.provincias_legal,{ 'attr': {'disabled':'disabled'} }) }}
+                        </div>
+                    {%endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="domicilio-provincia" class="control-label ml-fl-domicilio"
+                           id="label-localidad"><span class="text-danger">*</span>Localidad</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm   %}
+                        <div class="col-md-8 col-sm-12">
+                            <select required class="select-pronvicia form-control" name="state" id="selected-localidad-legal">
+                            </select>
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            <select required class="select-pronvicia form-control" name="state" id="selected-localidad-legal" disabled="disabled">
+                            </select>
+                        </div>
+                    {%endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label" style="float:left;"
+                           id="label-provincia"><span class="text-danger">*</span>Código Postal</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm   %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.codigo_postal,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormLegal.codigo_postal) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.codigo_postal,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormLegal.codigo_postal) }}
+                        </div>
+                    {%endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label ml-fl-domicilio"
+                           id="label-calle"><span class="text-danger">*</span>Calle/Nro de calle</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm   %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.calle,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormLegal.calle) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.calle,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormLegal.calle) }}
+                        </div>
+                    {%endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label" style="float:left;"
+                           id="label-piso">Piso</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm   %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.piso,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormLegal.piso) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.piso,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormLegal.piso) }}
+                        </div>
+                    {%endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label ml-fl-domicilio" style="float:left;"
+                           id="label-dpto">Dpto</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm   %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.departamento,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormLegal.departamento) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.departamento,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormLegal.departamento) }}
+                        </div>
+                    {%endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label" style="float:left;"
+                           id="label-telefono"><span class="text-danger">*</span>Teléfono</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm   %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.telefono,{ 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(domicilioFormLegal.telefono) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8 col-sm-12">
+                            {{ form_widget(domicilioFormLegal.telefono,{ 'attr': {'disabled':'disabled'} }) }}
+                            {{ form_errors(domicilioFormLegal.telefono) }}
+                        </div>
+                    {%endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(domicilioFormLegal) }}
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <div class="text-right">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm  %}
+            <button type="submit" class="btn btn-info  btn-borrador" id="submitDomicilioFormLegal">
+                <span> {% image '@saveldpi1' %}
+                        <img class="image-responsive" src="{{ asset_url }}">
+                    {% endimage %}</span></button>
+        {% endif %}
+    </div>
+
+
+    <!--****************************        			DOCUMENTACION     *************************-->
+
+</div>

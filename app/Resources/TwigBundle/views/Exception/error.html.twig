@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}ADIF SE - Error{% endblock %}
+
+{% block body %}
+
+    {% include '@GYL\UsuarioBundle/Resources/views/Partials/header.html.twig' %}
+
+    <main role="main">
+        <section class="jumbotron jumbobanner">
+            <div class="jumbotron_body_nopad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2 col-md-6 col-md-offset-5 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center bg-white-transparent border-rnd text-black pad-30">
+                            <h4>Se ha producido un error en el sistema, por favor reporte el problema detallando la situación en el siguiente <a href="mailto:soporte.portal@adifse.com.ar">link</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay"></div>
+
+            {% include '@GYL\UsuarioBundle/Resources/views/Partials/modal.html.twig' %}
+
+        </section>
+        <hr class="hr-footer">
+    </main>
+    {% include '@GYL\UsuarioBundle/Resources/views/Partials/footer.html.twig' %}
+
+{% endblock %}

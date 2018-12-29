@@ -1,0 +1,227 @@
+{% block javascripts %}
+    {% javascripts '@panel_representante_apoderados_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#rep-apod"
+     aria-expanded="false" aria-controls="collapseExample"><h5>Representantes / Apoderados</h5>
+</div>
+<div class="panel-body collapse" id="rep-apod">
+    <!--botones abm-->
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+        <div class="col-lg-12 text-center botonera-abm">
+            <a class="btn btn-primary btn-abm" data-target="#agregar-representantes-apoderados" data-backdrop="static" data-keyboard="false"
+               data-toggle="modal" id="agregarRrepresentante" data-editar-flag="false">Agregar</a>
+        </div>
+    {% endif %}
+    <div class="col-lg-12">
+        <table class="table table-responsive table-striped tabla-registro" id="tabla-apoderados-representantes">
+            <thead>
+            <tr>
+                <td><span class="text-danger">*</span>Nombre</td>
+                <td><span class="text-danger">*</span>Apellido</td>
+                <td><span class="text-danger">*</span>Nro CUIL/CUIT</td>
+                <td><span class="text-danger">*</span>Tipo de Doc.</td>
+                <td><span class="text-danger">*</span>Nro de Doc.</td>
+                <td><span class="text-danger">*</span>Fecha desig.</td>
+                <td><span class="text-danger">*</span>Repres.</td>
+                <td><span class="text-danger">*</span>Apoderado</td>
+                <td><span class="text-danger">*</span>Poder Juicios</td>
+                <td><span class="text-danger">*</span>Bancario</td>
+                <td><span class="text-danger">*</span>Adm. Espec.</td>
+                <td><span class="text-danger">*</span>Adm. Gral</td>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in representantes %}
+                    <tr id="apoderado-row-{{ item.id }}">
+                        <td id="id" hidden>{{ item.id }}</td>
+                        <td id="nombre">{{ item.nombre }}</td>
+                        <td id="apellido">{{ item.apellido }}</td>
+                        <td id="cuit">{{ item.cuitCuil }}</td>
+                        <td> {% if item.tipoDocumento == 1 %} DNI {% endif %}</td>
+                        <td id="documento">{{ item.numeroDocumento }}</td>
+                        <td id="fecha-designacion">{{ item.fechaDesignacion | date("Y-m-d") }}</td>
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            <td align="center"><input type="checkbox" {% if item.representante == 1 %} checked {% endif %}></td>
+                            <td align="center"><input type="checkbox" {% if item.apoderado == 1 %} checked {% endif %}></td>
+                            <td align="center"><input type="checkbox" {% if item.poderJudicial == 1 %} checked {% endif %}></td>
+                            <td align="center"><input type="checkbox" {% if item.bancario == 1 %} checked {% endif %}></td>
+                            <td align="center"><input type="checkbox" {% if item.admEspecial == 1 %} checked {% endif %}></td>
+                            <td align="center"><input type="checkbox" {% if item.admGeneral == 1 %} checked {% endif %}></td>
+                            {% else %}
+                            <td align="center"><input type="checkbox" {% if item.representante == 1 %} checked {% endif %} disabled></td>
+                            <td align="center"><input type="checkbox" {% if item.apoderado == 1 %} checked {% endif %} disabled></td>
+                            <td align="center"><input type="checkbox" {% if item.poderJudicial == 1 %} checked {% endif %} disabled></td>
+                            <td align="center"><input type="checkbox" {% if item.bancario == 1 %} checked {% endif %} disabled></td>
+                            <td align="center"><input type="checkbox" {% if item.admEspecial == 1 %} checked {% endif %} disabled></td>
+                            <td align="center"><input type="checkbox" {% if item.admGeneral == 1 %} checked {% endif %} disabled></td>
+                            {% endif %}
+                            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                            <td><a onclick="quitarRepresentanteApoderado({{ item.id }})"
+                                   class="glyphicon glyphicon-remove"></a><a data-target="#agregar-representantes-apoderados" data-toggle="modal" id="editarRepresentante" class="editar-representante glyphicon glyphicon-pencil"></a></td>
+                            <td hidden>{{ item.tipoDocumento }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <!--****************************        			DOCUMENTACION      *************************-->
+    {# <div class="col-lg-12  pad-top">
+        <p><strong>Documentación </strong><span><button type="button"
+                                                        class="btn btn-primary btn-xs"><i
+                        class="fa fa-question text-white"
+                        aria-hidden="true"></i></button></span></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocApo">
+                <div class="form-group" id="form-group-for-append-apoderado">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <input type="file" id="inputDocApo" class="inputfile" style="float:left">
+                        <label for="inputDocApo" style="cursor: pointer;  float:left">Adjuntar archivo</label>
+                        <div class="input-group" style="margin: 1em">
+                            <input style="width: 20em" type="text" class="form-control adjunto"
+                                   placeholder="documento.pdf" aria-describedby="archivo-ok" id="inputFileNameApo">
+                        </div>
+                    {% endif %}
+                    {% if documentacionRepresentantes is not empty %}
+                        {% for documentoApo in documentacionRepresentantes %}
+                            <div class="row" id="savedApoDoc{{ documentoApo.id }}">
+                                <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameApo{{ documentoApo.id }}"
+                                       value="{{ documentoApo.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                       onclick="quitarDocumentoApo({{ documentoApo.id }})"
+                                       style="cursor: pointer; padding-top: 1.5%"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div> #}
+
+    <div class="col-lg-12 text-right">
+        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+            <button type="button" class="btn btn-info  btn-borrador" id="guardarBorradorRepresentantes">
+                <span> {% image '@saveldpi1' %}
+                        <img class="image-responsive" src="{{ asset_url }}">
+                    {% endimage %}</span></button>
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- modal -->
+<div id="agregar-representantes-apoderados" class="modal fade">
+    <div class="modal-dialog modal-dialog-registro">
+        <div class="modal-content modal-content-registro">
+            <div class="modal-header modal-header-registro">
+                <button id="closeModalRepre" type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span>X</span></button>
+
+                <h4 class="modal-title">Agregar Representante</h4>
+            </div>
+            <div class="modal-body modal-body-registro">
+                <div class="col-lg-12 col-lg-offset-1">
+                    {{ form_start(formRrepresentante,  {'attr': {'id': 'formRrepresentante', 'class': 'datos-registro'}} ) }}
+                    {% form_theme formRrepresentante with['form_div_layout.html.twig','bootstrap_3_horizontal_layout.html.twig'] %}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-10 col-sm-12">
+                                    <label for="form_nombre_apod" class="control-label">
+                                        <span class="text-danger">*</span>Nombre
+                                    </label>
+                                    {{ form_widget(formRrepresentante.nombre_apod,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formRrepresentante.nombre_apod) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div for="form_apellido_apod" class="form-group">
+                                <div class="col-md-10 col-sm-12">
+                                    <label class="control-label">
+                                        <span class="text-danger">*</span>Apellido
+                                    </label>
+                                    {{ form_widget(formRrepresentante.apellido_apod,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formRrepresentante.apellido_apod) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-10 col-sm-12">
+                                    <label for="form_cuit_cuil_apod" class="control-label">
+                                        <span class="text-danger">*</span>Cuit/Cuil
+                                    </label>
+                                    {{ form_widget(formRrepresentante.cuit_cuil_apod,{ 'attr': {'class': 'form-control cuil-mask'} }) }}
+                                    {{ form_errors(formRrepresentante.cuit_cuil_apod) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-10 col-sm-12">
+                                    <label for="form_tipo_documento_apod" class="control-label">
+                                        <span class="text-danger">*</span>Tipo documento
+                                    </label>
+                                    {{ form_widget(formRrepresentante.tipo_documento_apod,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formRrepresentante.tipo_documento_apod) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-12">
+                                    <label for="form_numero_documento_apod" class="control-label">
+                                        <span class="text-danger">*</span>Numero Documento
+                                    </label>
+                                    {{ form_widget(formRrepresentante.numero_documento_apod,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formRrepresentante.numero_documento_apod) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <div class="col-md-6 col-sm-12">
+                                    <label for="form_fecha_designacion_apod" class="control-label">
+                                        <span class="text-danger">*</span>
+                                        Fecha de Finalización de Contrato
+                                    </label>
+                                    {{ form_widget(formRrepresentante.fecha_designacion_apod,{ 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_errors(formRrepresentante.fecha_designacion_apod) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="formRrepresentanteSumbit" editar="false">
+                        Agregar
+                    </button>
+                    {{ form_end(formRrepresentante) }}
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer modal-footer-registro">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content-registro -->
+    </div><!-- /.modal-dialog-registro -->
+</div><!-- /.modal-registro -->

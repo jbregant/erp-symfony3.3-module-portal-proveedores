@@ -1,0 +1,21 @@
+{% extends '@GYL\CuentaCorrienteBundle/Resources/views/layout.html.twig' %}
+
+{% block javascripts %}
+    {% javascripts '@cuenta_corriente_js' %}
+        <script src="{{ asset_url }}"></script>
+        <script>
+            var idTiempoRespuesta = "{{ idTiempoRespuesta }}";
+        </script>
+    {% endjavascripts %}
+{% endblock %}
+{% block cuenta_corriente_content %}
+    <main role="main">
+        <section class="mis-cuentas">
+            <div class="container">
+                <div class="row" id="tabla-cuentas-responsive">
+                    {% block cuenta_corriente_table %}{% endblock %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

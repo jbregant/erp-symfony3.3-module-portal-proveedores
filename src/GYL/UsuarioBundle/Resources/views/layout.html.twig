@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+{% block title %}ADIF S.E. - Inicio{% endblock %}
+{% block body %}
+    {% include '@GYL\UsuarioBundle/Resources/views/Partials/header.html.twig' %}
+    {% block fos_user_content %}{% endblock %}
+	{% include '@GYL\UsuarioBundle/Resources/views/Partials/footer.html.twig' %}
+{% endblock %}

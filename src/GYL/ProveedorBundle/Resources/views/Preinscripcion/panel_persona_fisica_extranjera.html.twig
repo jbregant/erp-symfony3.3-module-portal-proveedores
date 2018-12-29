@@ -1,0 +1,82 @@
+{% block javascripts %}
+    {% javascripts '@panel_persona_fisica_extranjera_js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse" href="#datos-persona-fisica-extranjera"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Datos de la persona física no residente en el país</h5>
+</div>
+<div class="panel-body collapse" id="datos-persona-fisica-extranjera">
+
+
+    {{ form_start(formPersonaFisicaExtranjera ,{'attr': {'id': 'persona-fisica-extranjeraForm', 'class':'form-horizontal col-lg-11 col-lg-offset-1 datos-registro pad-top'}} ) }}
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Nombre</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(formPersonaFisicaExtranjera.nombre_persona_fisica_extranjera,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(formPersonaFisicaExtranjera.nombre_persona_fisica_extranjera,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Apellido</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(formPersonaFisicaExtranjera.apellido_persona_fisica_extranjera,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(formPersonaFisicaExtranjera.apellido_persona_fisica_extranjera,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Tipo Documento</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(formPersonaFisicaExtranjera.tipo_documento_persona_fisica_extranjera,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(formPersonaFisicaExtranjera.tipo_documento_persona_fisica_extranjera,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>Número Documento</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(formPersonaFisicaExtranjera.numero_documento_persona_fisica_extranjera,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(formPersonaFisicaExtranjera.numero_documento_persona_fisica_extranjera,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-group col-lg-6">
+        <label for="" class="col-sm-5 control-label"><span class="text-danger">*</span>País de radicación</label>
+        <div class="col-sm-7">
+            {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                {{ form_widget(formPersonaFisicaExtranjera.nacionalidad_persona_fisica_extranjera,{ 'attr': {'class': 'form-control'} }) }}
+            {% else %}
+                {{ form_widget(formPersonaFisicaExtranjera.nacionalidad_persona_fisica_extranjera,{ 'attr': {'disabled':'disabled'} }) }}
+            {% endif %}
+        </div>
+    </div>
+    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+        <button type="submit" class="btn btn-info btn-borrador" id="persona-fisica-extranjeraFormularioSubmit"
+                style="float:right">
+            <span>   {% image '@saveldpi1' %}
+                <img class="image-responsive" src="{{ asset_url }}">
+                {% endimage %}</span>
+        </button>
+    {% endif %}
+    {{ form_end(formPersonaFisicaExtranjera) }}
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {%endif %}
+
+    <!--****************************        			DOCUMENTACION      *************************-->
+</div>

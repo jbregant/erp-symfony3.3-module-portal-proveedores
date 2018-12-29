@@ -1,0 +1,116 @@
+<div class="timeline" id="timeline">
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_dato_contacto is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_dato_contacto"></div>
+        <h5>Datos de Contacto</h5></div>
+    <div class="timeline_puesto" id="timeline-default-tipo-proveedor">
+
+        {% if tipoProveedor.id is defined %}
+            <div {% if tipoProveedor.id != 1 %} hidden {% endif %} id="timeline_persona_fisica_div">
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_persona_fisica is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_persona_fisica"></div>
+                <h5>Datos Persona Física</h5></div>
+
+            <div {% if tipoProveedor.id != 2 %} hidden {% endif %} id="timeline_persona_juridica_div">
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_persona_juridica is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_persona_juridica"></div>
+                <h5>Datos Persona Jurídica</h5>
+            </div>
+
+            <div {% if tipoProveedor.id != 3 %} hidden {% endif %} id="timeline_contratos_ute_div">
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_contratos_ute is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_contratos_ute"></div>
+                <h5>Datos Contratos de Colaboración Empresaria</h5></div>
+
+            <div {% if tipoProveedor.id != 4 %} hidden {% endif %} id="timeline_persona_fisica_extranjera_div">
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_persona_fisica_extranjera is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_persona_fisica_extranjera"></div>
+                <h5>Datos Persona Fisica no residente en el país</h5></div>
+
+            <div {% if tipoProveedor.id != 5 %} hidden {% endif %} id="timeline_persona_juridica_extranjera_div">
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_persona_juridica_extranjera is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_persona_juridica_extranjera"></div>
+                <h5>Datos persona jurídica extranjera</h5></div>
+        {% else %}
+            <div id="div-for-check-timeline-default">
+                <div class="timeline-circulo">
+                </div>
+                <h5>Seleccione proveedor</h5>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_actividades is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_actividades"></div>
+        <h5>Actividad</h5></div>
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_rubro is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_rubro"></div>
+        <h5>Rubro</h5></div>
+    <div class="timeline_puesto" id="timeline-default-domicilio-proveedor">
+
+        {% if tipoProveedor.id is defined %}
+            <div {% if tipoProveedor.id != 1 %} hidden
+            {% endif %} id="timeline_domicilio_real_div">
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_domicilio_real is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_domicilio_real"></div>
+                <h5>Domicilio Real</h5></div>
+
+
+            <div {% if tipoProveedor.id != 2 and tipoProveedor.id != 3 %} hidden
+            {% endif %} id="timeline_domicilio_legal_div">
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_domicilio_legal is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_domicilio_legal"></div>
+                <h5>Domicilio Legal</h5></div>
+
+
+            <div {% if tipoProveedor.id != 4 and tipoProveedor.id != 5 %} hidden
+                    {% endif %}>
+                <div class="timeline-circulo {% if mappedTimelineInfo.timeline_domicilio_exterior is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                     id="timeline_domicilio_exterior"></div>
+                <h5>Domicilio Exterior</h5></div>
+
+        {% else %}
+            <div id="div-for-check-timeline-default-domicilio">
+                <div class="timeline-circulo">
+                </div>
+                <h5>Seleccione proveedor</h5>
+            </div>
+        {% endif %}
+
+    </div>
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_domicilio_fiscal is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_domicilio_fiscal"></div>
+        <h5>Domicilio Fiscal</h5>
+    </div>
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_domicilio_contractual is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_domicilio_contractual"></div>
+        <h5>Domicilio Contractual</h5>
+    </div>
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_representantes_apoderados is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_representantes_apoderados"></div>
+        <h5>Representantes /Apoderados</h5></div>
+    {% if proveedorDatosPersonales.extranjero == 0 %}
+        <div class="timeline_puesto">
+            <div class="timeline-circulo {% if mappedTimelineInfo.timeline_datos_impositivos is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+                 id="timeline_datos_impositivos"></div>
+            <h5>Datos Impositivos</h5></div>
+    {% endif %}
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_datos_bancarios is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_datos_bancarios"></div>
+        <h5>Datos Bancarios</h5></div>
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_gcshm is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_gcshm"></div>
+        <h5>Certificación de calidad</h5></div>
+    <div class="timeline_puesto">
+        <div class="timeline-circulo {% if mappedTimelineInfo.timeline_ddjj is defined %}bg-verdin{% else %} bg-tomate{% endif %}"
+             id="timeline_ddjj"></div>
+        <h5>Declaración Jurada</h5></div>
+</div>

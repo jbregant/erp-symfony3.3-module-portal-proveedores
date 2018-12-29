@@ -1,0 +1,98 @@
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: adif_proveedores
+        connections:
+            adif_proveedores:
+                driver: pdo_mysql
+                host: '%database_ADIF_proveedores_host%'
+                port: '%database_ADIF_proveedores_port%'
+                dbname: '%database_ADIF_proveedores_name%'
+                user: '%database_ADIF_proveedores_user%'
+                password: '%database_ADIF_proveedores_password%'
+                charset: UTF8
+            adif_compras:
+                driver: pdo_mysql
+                host: '%database_ADIF_compras_host%'
+                port: '%database_ADIF_compras_port%'
+                dbname: '%database_ADIF_compras_name%'
+                user: '%database_ADIF_compras_user%'
+                password: '%database_ADIF_compras_password%'
+                charset: UTF8
+            adif_contable:
+                driver: pdo_mysql
+                host: '%database_ADIF_contable_host%'
+                port: '%database_ADIF_contable_port%'
+                dbname: '%database_ADIF_contable_name%'
+                user: '%database_ADIF_contable_user%'
+                password: '%database_ADIF_contable_password%'
+                charset: UTF8
+            adif_rrhh:
+                driver: pdo_mysql
+                host: '%database_ADIF_rrhh_host%'
+                port: '%database_ADIF_rrhh_port%'
+                dbname: '%database_ADIF_rrhh_name%'
+                user: '%database_ADIF_rrhh_user%'
+                password: '%database_ADIF_rrhh_password%'
+                charset: UTF8
+            siga_autenticacion:
+                driver: pdo_mysql
+                host: '%database_siga_autenticacion_host%'
+                port: '%database_siga_autenticacion_port%'
+                dbname: '%database_siga_autenticacion_name%'
+                user: '%database_siga_autenticacion_user%'
+                password: '%database_siga_autenticacion_password%'
+                charset: UTF8
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        entity_managers:
+            adif_proveedores:
+                connection: adif_proveedores
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+                mappings:
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+                        is_bundle: false
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                filters:
+                    softdeleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+            adif_compras:
+                connection: adif_compras
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                filters:
+                    softdeleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+            adif_contable:
+                connection: adif_contable
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+            adif_rrhh:
+                connection: adif_rrhh
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+            siga_autenticacion:
+                connection: siga_autenticacion
+                naming_strategy: doctrine.orm.naming_strategy.underscore

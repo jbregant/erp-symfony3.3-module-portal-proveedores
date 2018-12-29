@@ -1,0 +1,11 @@
+services:
+#    gyl_cuenta_corriente.example:
+#        class: GYL\CuentaCorrienteBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    # extension Twig de SIGA
+    CuentaCorriente.twig_extension:
+        class: GYL\CuentaCorrienteBundle\Twig\CuentaCorrienteExtension
+        public: false
+        tags: 
+            - { name: twig.extension }

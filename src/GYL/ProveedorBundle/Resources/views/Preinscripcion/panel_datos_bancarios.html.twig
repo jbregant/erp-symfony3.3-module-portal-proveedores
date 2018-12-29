@@ -1,0 +1,182 @@
+{% block javascripts %}
+    {% javascripts '@panel_datos_bancarios_js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<div class="panel-heading bg-primary" role="button" data-toggle="collapse"
+     href="#datos-bancarios"
+     aria-expanded="false" aria-controls="collapseExample">
+    <h5>Datos Bancarios</h5>
+
+</div>
+<div class="panel-body collapse" id="datos-bancarios">
+
+
+    {{ form_start(formDatosBancarios,  {'attr': {'id': 'form-datos-bancarios', 'class': 'form-horizontal col-lg-11 col-lg-offset-1 datos-registro pad-top'}} ) }}
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>Entidad Bancaria</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.entidad_bancaria) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.entidad_bancaria,{ 'attr':{'disabled':'disabled'} }) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class=" control-label"><span class="text-danger">*</span>Sucursal</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.sucursal) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.sucursal,{ 'attr':{'disabled':'disabled'} }) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>Nro de Sucursal</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.numero_sucursal) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.numero_sucursal,{ 'attr':{'disabled':'disabled'} }) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>CBU</label>
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.cbu_datos_bancario) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.cbu_datos_bancario,{ 'attr':{'disabled':'disabled'} }) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group ">
+                    <label for="" style="float:left" class="control-label"><span class="text-danger">*</span>Nro de
+                        Cuenta</label>
+                        {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.numero_cuenta_dato_bancario) }}
+                        </div>
+                    {% else %}
+                        <div class="col-md-8">
+                            {{ form_widget(formDatosBancarios.numero_cuenta_dato_bancario,{ 'attr':{'disabled':'disabled'} }) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                    <button type="submit" class="btn btn-info  btn-borrador" id="guardarDatosBancarios" style="float: right">
+                        <span>  {% image '@saveldpi1' %}
+                            <img class="image-responsive" src="{{ asset_url }}">
+                            {% endimage %}</span></button>
+                        {%endif %}
+
+            </div>
+        </div>
+    </div>
+    {{ form_end(formDatosBancarios) }}
+
+    {% if observacionEvaluacion is not null %}
+        {% include '@ProveedorBundle/Resources/views/Partials/observacion.html.twig' %}
+    {% endif %}
+
+    <div class="clearfix"></div>
+    <div class="col-lg-12  pad-top">
+        <p><strong><span class="text-danger">*</span>Comprobante de CBU </strong></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocComprobanteCBU">
+                <div class="form-group" id="form-group-for-append-comprobantecbu">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                        <input type="file" id="inputDocComprobanteCBU" class="inputfile" style="float:left" {% if documentacionComprobanteCBU is empty %}required{% endif %} {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}{% else %}disabled{% endif %}>
+                        <label for="inputDocComprobanteCBU" style="cursor: pointer;  float:left">Adjuntar archivo</label>
+                        {#<div class="input-group" style="margin: 1em">#}
+                        {#<input style="width: 20em" type="text" class="form-control adjunto"#}
+                        {#placeholder="documento.pdf" aria-describedby="archivo-ok"#}
+                        {#id="inputFileNameComprobanteCBU">#}
+                        {#</div>#}
+                    {% endif %}
+                    {% if documentacionComprobanteCBU is not empty %}
+                        {% for documentoComprobanteCBU in documentacionComprobanteCBU %}
+                            <div class="row" id="savedComprobanteCBUDoc{{ documentoComprobanteCBU.id }}">
+                                <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameComprobanteCBU{{ documentoComprobanteCBU.id }}"
+                                       value="{{ documentoComprobanteCBU.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                    <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                       onclick="quitarDocumentoComprobanteCBU({{ documentoComprobanteCBU.id }})"
+                                       style="cursor: pointer;"></i>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--****************************        			DOCUMENTACION     *************************-->
+    {# <div class="col-lg-12 pad-top">
+        <p><strong>Documentación </strong><span><button type="button"
+                                                        class="btn btn-primary btn-xs"><i
+                            class="fa fa-question text-white"
+                            aria-hidden="true"></i></button></span></p>
+        <div class="col-lg-11 col-lg-offset-1">
+            <form class="form-inline" id="formDocDatosBancarios">
+                <div class="form-group" id="form-group-for-append-datosbancarios">
+                    {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                    <input type="file" id="inputDocDatosBancarios" class="inputfile" style="float:left">
+                    <label for="inputDocDatosBancarios" style="cursor: pointer;  float:left">Adjuntar archivo</label>
+                    <div class="input-group" style="margin: 1em">
+                        <input style="width: 20em" type="text" class="form-control adjunto"
+                               placeholder="documento.pdf" aria-describedby="archivo-ok"
+                               id="inputFileNameDatosBancarios">
+                    </div>
+                    {% endif %}
+                    {% if documentacionDatosBancarios is not empty %}
+                        {% for documentoDatosBancarios in documentacionDatosBancarios %}
+                            <div class="row" id="savedDatosBancariosDoc{{ documentoDatosBancarios.id }}">
+                                <input style="width: 20em;" type="text" class="form-control adjunto float-l"
+                                       placeholder="documento.pdf" aria-describedby="archivo-ok"
+                                       id="savedInputFileNameDatosBancarios{{ documentoDatosBancarios.id }}"
+                                       value="{{ documentoDatosBancarios.publicfilename }}" disabled>
+                                {% if estadoEvaluacionGral is null or (estadoEvaluacionGral == 4 and observacionEvaluacion is not null) or unlockForm %}
+                                <i class="fa fa-times fa-2 float-l" aria-hidden="true"
+                                   onclick="quitarDocumentoDatosBancarios({{ documentoDatosBancarios.id }})"
+                                   style="cursor: pointer;"></i>
+                                   {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div> #}
+</div>

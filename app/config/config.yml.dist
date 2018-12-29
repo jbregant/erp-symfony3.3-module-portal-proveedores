@@ -1,0 +1,96 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: parameters_adif.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: assetic.yml }
+    - { resource: doctrine.yml }
+    - { resource: "@ProveedorBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: es
+    kernel:
+        enviroment: '%kernel.environment%'
+        
+framework:
+    translator: { fallback: "%locale%" }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        #cookie_secure: false
+        #cookie_lifetime: 0
+        #gc_maxlifetime: 900
+        #gc_probability: 1
+        #gc_divisor: 100
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        csrfTokenManager: '@security.csrf.token_manager'
+        recaptcha_public_key: "%recaptcha_public_key%"
+        invitaciones: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport:          "%mailer_transport%"
+    host:               "%mailer_host%"
+    username:           "%mailer_user%"
+    password:           "%mailer_password%"
+    #auth_mode:          "%mailer_auth_mode%"
+    port:               "%mailer_port%"
+    encryption:         "%mailer_encryption%"
+    logging:            '%kernel.debug%'
+
+# FOSUserBundle Configuration
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class:  GYL\UsuarioBundle\Entity\Usuario
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_sender_name%"
+    resetting:
+        email:
+            template: '@FOSUser/Resetting/email.html.twig'
+        form:
+            validation_groups: [myChangePassword]
+    service:
+        mailer: fos_user.mailer.twig_swift
+    change_password:
+        form:
+            validation_groups: [myChangePassword]
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        documentacion:
+            uri_prefix: /documentacion
+            upload_destination: - '%kernel.root_dir%/../web/uploads/documentacion'
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        adif_proveedores:
+            timestampable: true
+            softdeleteable: true
+            loggable: true
